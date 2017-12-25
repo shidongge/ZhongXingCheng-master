@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/lt_ll"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@color/zhuangtailan"
+        >
+        <ImageView
+            android:id="@+id/lt_back"
+            android:padding="10dp"
+            android:src="@mipmap/fh"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+           android:layout_centerInParent="true"
+            android:id="@+id/chat_title"
+            android:textColor="#fff"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="聊天"
+            android:textSize="18sp" />
+        <ImageView
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_details"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/add_haoyou"
+            />
+    </RelativeLayout>
+
+    <View
+        android:layout_below="@id/lt_ll"
+        style="@style/xiantiao"
+        />
+    <com.tencent.qcloud.ui.ChatInput
+        android:id="@+id/input_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/input_panel"
+        android:layout_below="@id/lt_ll"
+        android:divider="@null">
+
+    </ListView>
+
+    <com.tencent.qcloud.ui.VoiceSendingView
+        android:id="@+id/voice_sending"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

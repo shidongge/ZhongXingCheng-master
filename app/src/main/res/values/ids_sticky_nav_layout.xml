@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="decode"/>
+
+    <item type="id" name="decode_failed"/>
+
+    <item type="id" name="decode_succeeded"/>
+
+    <item type="id" name="quit"/>
+
+    <item type="id" name="restart_preview"/>
+
+    <item type="id" name="return_scan_result"/>
+
+    <item type="id" name="id_stickynavlayout_topview"/>
+
+    <item type="id" name="id_stickynavlayout_gv"/>
+
+    <item type="id" name="id_stickynavlayout_indicator"/>
+
+    <item type="id" name="id_stickynavlayout_innerscrollview"/>
+
+    <item name="id_stickynavlayout_vp" type = "id"/>
+    <integer name="view_group_tag">0</integer>
+    <integer name="view_child_tag">1</integer>
+</resources>
