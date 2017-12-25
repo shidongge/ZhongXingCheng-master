@@ -50,7 +50,7 @@ public class GroupMemberAdapter extends ArrayAdapter<TIMUserProfile> {
         }
         TIMUserProfile data = getItem(position);
         String avatarUrl = data.getFaceUrl();
-        if (avatarUrl != null) {
+        if (!avatarUrl .equals("")) {
             Glide.with(context).load(avatarUrl).into(viewHolder.avatar);
         }else {
             viewHolder.avatar.setImageResource(R.drawable.head_other);
