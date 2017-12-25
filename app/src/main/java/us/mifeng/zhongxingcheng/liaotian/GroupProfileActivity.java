@@ -57,13 +57,18 @@ public class GroupProfileActivity extends FragmentActivity implements GroupInfoV
     private CircleImageView img;
     private String faceUrl;
     private SharedUtils sharedUtils;
-    private final String REFRESH_FLAG="REFRESH_GROUP_FACEURL";
+    private com.tencent.qcloud.tlslibrary.utils.SharedUtils sharedUtils1;
+    private final String REFRESH_FLAG = "REFRESH_GROUP_FACEURL";
+    private String groupOwner;
+    private String id1;
+    private boolean clickFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat_setting);
         sharedUtils = new SharedUtils();
+        sharedUtils1 = new com.tencent.qcloud.tlslibrary.utils.SharedUtils();
         identify = getIntent().getStringExtra("identify");
         isInGroup = GroupInfo.getInstance().isInGroup(identify);
         groupInfoPresenter = new GroupInfoPresenter(this, Collections.singletonList(identify), isInGroup);
@@ -295,8 +300,12 @@ public class GroupProfileActivity extends FragmentActivity implements GroupInfoV
                 });
                 break;
             case R.id.avatar:
-                Intent intent1 = new Intent(GroupProfileActivity.this, ImageGridActivity.class);
-                startActivityForResult(intent1, IMAGE_PICKER);
+                if (isGroupOwner) {
+                    Intent intent1 = new Intent(GroupProfileActivity.this, ImageGridActivity.class);
+                    startActivityForResult(intent1, IMAGE_PICKER);
+                } else {
+                    Toast.makeText(this, "权限不足", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

@@ -52,6 +52,8 @@ public class GroupMemberAdapter extends ArrayAdapter<TIMUserProfile> {
         String avatarUrl = data.getFaceUrl();
         if (avatarUrl != null) {
             Glide.with(context).load(avatarUrl).into(viewHolder.avatar);
+        }else {
+            viewHolder.avatar.setImageResource(R.drawable.head_other);
         }
         String userName = data.getNickName();
         String identifier = data.getIdentifier();

@@ -20,24 +20,7 @@ import us.mifeng.zhongxingcheng.liaotian.model.FriendProfile;
 import us.mifeng.zhongxingcheng.liaotian.model.FriendshipInfo;
 
 
-public class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ChooseFriendActivity extends Activity {
+public class ChooseFriendActivity extends Activity {
 
     private ExpandGroupListAdapter mGroupListAdapter;
     private ListView mGroupListView;

@@ -122,6 +122,15 @@
         <activity android:name=".dianpu.DianPuActivity" />
         <activity android:name=".activity.RXPH"/>
         <activity android:name=".activity.GuanYu"/>
+        <activity android:name=".activity.HYZX"/>
+        <activity android:name=".activity.ZXSC_SHDZGL"/>
+        <activity android:name=".activity.ZXSC_XZSHDZ"/>
+        <activity android:name=".activity.WDQB"/>
+        <activity android:name=".activity.GMLC"/>
+        <activity android:name=".activity.SCJGSM"/>
+        <activity android:name=".activity.JYTK"/>
+        <activity android:name=".activity.RHFK"/>
+        <activity android:name=".activity.ZFSB"/>
         <!-- 消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"

@@ -34,6 +34,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMMessageDraft;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
+import com.tencent.imsdk.ext.sns.TIMFriendshipManagerExt;
 import com.tencent.qcloud.presentation.event.RefreshEvent;
 import com.tencent.qcloud.presentation.presenter.ChatPresenter;
 import com.tencent.qcloud.presentation.viewfeatures.ChatView;
@@ -48,7 +49,6 @@ import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.liaotian.adapter.ChatAdapter;
 import us.mifeng.zhongxingcheng.liaotian.model.CustomMessage;
 import us.mifeng.zhongxingcheng.liaotian.model.FileMessage;
-import us.mifeng.zhongxingcheng.liaotian.model.FriendProfile;
 import us.mifeng.zhongxingcheng.liaotian.model.FriendshipInfo;
 import us.mifeng.zhongxingcheng.liaotian.model.GroupInfo;
 import us.mifeng.zhongxingcheng.liaotian.model.ImageMessage;
@@ -87,6 +87,10 @@ public class ChatActivity extends FragmentActivity implements ChatView, View.OnT
     private int firstItem;
     private List<TIMUserProfile> urlList;
     private boolean refreshFlag;
+    private String remark;
+    private String nickName;
+    private List<String> idList = new ArrayList<>();
+    private TextView title;
 
     public static void navToChat(Context context, String identify, TIMConversationType type, String faceUrl) {
         Intent intent = new Intent(context, ChatActivity.class);
@@ -103,6 +107,7 @@ public class ChatActivity extends FragmentActivity implements ChatView, View.OnT
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         urlList = new ArrayList<>();
         identify = getIntent().getStringExtra("identify");
+        idList.add(identify);
         faceUrl = getIntent().getStringExtra("faceUrl");
         type = (TIMConversationType) getIntent().getSerializableExtra("type");
         presenter = new ChatPresenter(this, identify, type);
@@ -140,12 +145,13 @@ public class ChatActivity extends FragmentActivity implements ChatView, View.OnT
                 startActivity(intent);
             }
         });
-        TextView title = (TextView) findViewById(R.id.chat_title);
+        title = (TextView) findViewById(R.id.chat_title);
         switch (type) {
             case C2C:
                 if (FriendshipInfo.getInstance().isFriend(identify)) {
-                    FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
-                    title.setText(titleStr = profile == null ? identify : profile.getName());
+                    /*FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
+                    title.setText(titleStr = profile == null ? identify : profile.getName());*/
+                    getFriendMsg();
                 } else {
                     title.setText(titleStr = identify);
                 }
@@ -600,6 +606,27 @@ public class ChatActivity extends FragmentActivity implements ChatView, View.OnT
                 } else {
                     adapter.notifyDataSetChanged();
                 }
+            }
+        });
+    }
+
+    /**
+     * 获取好友信息
+     */
+    private void getFriendMsg() {
+        TIMFriendshipManagerExt.getInstance().getFriendsProfile(idList, new TIMValueCallBack<List<TIMUserProfile>>() {
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                TIMUserProfile userProfile = timUserProfiles.get(0);
+                remark = userProfile.getRemark();
+                nickName = userProfile.getNickName();
+                title.setText(remark == null ? nickName == null ? identify : nickName : remark);
             }
         });
     }

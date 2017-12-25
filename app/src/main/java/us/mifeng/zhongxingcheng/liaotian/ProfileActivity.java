@@ -15,9 +15,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.sns.TIMFriendResult;
 import com.tencent.imsdk.ext.sns.TIMFriendStatus;
+import com.tencent.imsdk.ext.sns.TIMFriendshipManagerExt;
 import com.tencent.qcloud.presentation.event.FriendshipEvent;
 import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
 import com.tencent.qcloud.presentation.viewfeatures.FriendshipManageView;
@@ -25,11 +27,11 @@ import com.tencent.qcloud.ui.CircleImageView;
 import com.tencent.qcloud.ui.LineControllerView;
 import com.tencent.qcloud.ui.ListPickerDialog;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
-import us.mifeng.zhongxingcheng.liaotian.model.FriendProfile;
 import us.mifeng.zhongxingcheng.liaotian.model.FriendshipInfo;
 
 //好友资料界面
@@ -39,11 +41,15 @@ public class ProfileActivity extends FragmentActivity implements FriendshipManag
     private final int CHANGE_REMARK_CODE = 200;
     private FriendshipManagerPresenter friendshipManagerPresenter;
     private String identify, categoryStr;
+    private List<String> list;
+    private String remark1;
+    private String nickName;
+    private String faceUrl;
 
     public static void navToProfile(Context context, String identify) {
-        Intent intent = new Intent(context, ProfileActivity.class);
+        /*Intent intent = new Intent(context, ProfileActivity.class);
         intent.putExtra("identify", identify);
-        context.startActivity(intent);
+        context.startActivity(intent);*/
     }
 
     @Override
@@ -51,10 +57,32 @@ public class ProfileActivity extends FragmentActivity implements FriendshipManag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         identify = getIntent().getStringExtra("identify");
+        list = new ArrayList<>();
+        list.add(identify);
+        Log.e(TAG, "onCreate: " + identify);
         friendshipManagerPresenter = new FriendshipManagerPresenter(this);
         if (!TextUtils.isEmpty(identify)) {
-            showProfile(identify);
+            getFriendMsg();
         }
+    }
+
+    private void getFriendMsg(){
+        TIMFriendshipManagerExt.getInstance().getFriendsProfile(list, new TIMValueCallBack<List<TIMUserProfile>>() {
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                TIMUserProfile userProfile = timUserProfiles.get(0);
+                faceUrl = userProfile.getFaceUrl();
+                nickName = userProfile.getNickName();
+                remark1 = userProfile.getRemark();
+                showProfile(identify);
+            }
+        });
     }
 
     /**
@@ -63,24 +91,29 @@ public class ProfileActivity extends FragmentActivity implements FriendshipManag
      * @param identify
      */
     public void showProfile(final String identify) {
-        final FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
-        String avatarUrl = profile.getAvatarUrl();
-        CircleImageView img = (CircleImageView) findViewById(R.id.avatar);
-        Glide.with(this).load(avatarUrl).into(img);
+        /*final FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
         if (profile == null) return;
+        String avatarUrl = profile.getAvatarUrl();*/
+        CircleImageView img = (CircleImageView) findViewById(R.id.avatar);
+        Log.e(TAG, "showProfile: "+faceUrl );
+        if (!faceUrl .equals("")) {
+            Glide.with(this).load(faceUrl).into(img);
+        }else {
+            img.setImageResource(R.mipmap.head_other);
+        }
         TextView name = (TextView) findViewById(R.id.name);
-        name.setText(profile.getName());
+        name.setText(nickName);
         LineControllerView id = (LineControllerView) findViewById(R.id.id);
-        id.setContent(profile.getIdentify());
+        id.setContent(identify);
         final LineControllerView remark = (LineControllerView) findViewById(R.id.remark);
-        remark.setContent(profile.getRemark());
+        remark.setContent(remark1);
         remark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditActivity.navToEdit(ProfileActivity.this, getString(R.string.profile_remark_edit), remark.getContent(), CHANGE_REMARK_CODE, new EditActivity.EditInterface() {
                     @Override
                     public void onEdit(String text, TIMCallBack callBack) {
-                        FriendshipManagerPresenter.setRemarkName(profile.getIdentify(), text, callBack);
+                        FriendshipManagerPresenter.setRemarkName(identify, text, callBack);
                     }
                 }, 20);
 
@@ -88,7 +121,7 @@ public class ProfileActivity extends FragmentActivity implements FriendshipManag
         });
         LineControllerView category = (LineControllerView) findViewById(R.id.group);
         //一个用户可以在多个分组内，客户端逻辑保证一个人只存在于一个分组
-        category.setContent(categoryStr = profile.getGroupName());
+        //category.setContent(categoryStr = profile.getGroupName());
         LineControllerView black = (LineControllerView) findViewById(R.id.blackList);
         black.setCheckListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

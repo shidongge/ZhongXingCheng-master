@@ -67,7 +67,13 @@ public class ExpandGroupListAdapter extends BaseAdapter {
             itemHolder = (ChildrenHolder) convertView.getTag();
         }
         FriendProfile data = (FriendProfile) getItem(position);
-        Glide.with(mContext).load(data.getAvatarUrl()).into(itemHolder.avatar);
+        String avatarUrl = data.getAvatarUrl();
+        if (avatarUrl!=null){
+
+            Glide.with(mContext).load(data.getAvatarUrl()).into(itemHolder.avatar);
+        }else {
+            itemHolder.avatar.setImageResource(R.mipmap.head_other);
+        }
         itemHolder.name.setText(data.getName());
         itemHolder.tag.setVisibility(selectable ? View.VISIBLE : View.GONE);
         itemHolder.tag.setImageResource(data.isSelected() ? R.drawable.selected : R.drawable.unselected);

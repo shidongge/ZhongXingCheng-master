@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.qcloud.ui.CircleImageView;
 
@@ -28,11 +29,13 @@ public class ConversationAdapter extends BaseAdapter {
     private Context context;
     private List<TIMGroupDetailInfo> groupInfoList;
     private List<Conversation> list;
+    private List<TIMUserProfile> idList;
     private SharedUtils sharedUtils;
 
-    public ConversationAdapter(Context context, List<Conversation> list, List<TIMGroupDetailInfo> groupInfoList) {
+    public ConversationAdapter(Context context, List<Conversation> list, List<TIMGroupDetailInfo> groupInfoList, List<TIMUserProfile> idList) {
         this.context = context;
         this.list = list;
+        this.idList = idList;
         this.groupInfoList = groupInfoList;
         sharedUtils = new SharedUtils();
     }
@@ -74,28 +77,42 @@ public class ConversationAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(avatarUrl)) {
             Glide.with(context).load(avatarUrl).into(viewHolder.avatar);
         }
+        viewHolder.tvName.setText(name);
+        viewHolder.lastMessage.setText(data.getLastMessageSummary());
+        viewHolder.time.setText(TimeUtil.getTimeStr(data.getLastMessageTime()));
         for (int i = 0; i < groupInfoList.size(); i++) {
             TIMGroupDetailInfo timGroupDetailInfo = groupInfoList.get(i);
             String groupId = timGroupDetailInfo.getGroupId();
             if (groupId.equals(identify)) {
                 String faceUrl = timGroupDetailInfo.getFaceUrl();
                 Glide.with(context).load(faceUrl).into(viewHolder.avatar);
-                break;
-            } else if ("新朋友".equals(name)) {
+            }
+            if ("新朋友".equals(name)) {
                 String friendFaceUrl = sharedUtils.getShared("friendFaceUrl", context);
                 Glide.with(context).load(friendFaceUrl).into(viewHolder.avatar);
-                break;
-            } else {
-                if (!TextUtils.isEmpty(avatarUrl)) {
-                    Glide.with(context).load(avatarUrl).into(viewHolder.avatar);
+            }
+        }
+        for (int j = 0; j < idList.size(); j++) {
+            TIMUserProfile userProfile = idList.get(j);
+            String identifier = userProfile.getIdentifier();
+            String remark = userProfile.getRemark();
+            String nickName = userProfile.getNickName();
+            String faceUrl = userProfile.getFaceUrl();
+            if (identifier.equals(identify)) {
+                if (!TextUtils.isEmpty(faceUrl)){
+                    Glide.with(context).load(faceUrl).into(viewHolder.avatar);
+                }
+                if (!TextUtils.isEmpty(remark)) {
+                    viewHolder.tvName.setText(remark);
+                } else {
+                    if (!TextUtils.isEmpty(nickName)) {
+                        viewHolder.tvName.setText(nickName);
+                    } else {
+                        viewHolder.tvName.setText(identifier);
+                    }
                 }
             }
         }
-
-        viewHolder.tvName.setText(name);
-        viewHolder.lastMessage.setText(data.getLastMessageSummary());
-        viewHolder.time.setText(TimeUtil.getTimeStr(data.getLastMessageTime()));
-
         long unRead = data.getUnreadNum();
         if (unRead <= 0) {
             viewHolder.unread.setVisibility(View.INVISIBLE);

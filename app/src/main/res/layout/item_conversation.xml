@@ -6,6 +6,7 @@
     android:paddingTop="8dp"
     android:paddingLeft="10dp">
     <com.tencent.qcloud.ui.CircleImageView
+        android:src="@drawable/head_other"
         android:id="@+id/avatar"
         android:layout_width="45dp"
         android:layout_height="45dp" />

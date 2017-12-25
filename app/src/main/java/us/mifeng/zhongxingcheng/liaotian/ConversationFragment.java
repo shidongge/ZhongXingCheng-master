@@ -25,10 +25,12 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupPendencyItem;
 import com.tencent.imsdk.ext.sns.TIMFriendFutureItem;
+import com.tencent.imsdk.ext.sns.TIMFriendshipManagerExt;
 import com.tencent.qcloud.presentation.presenter.ConversationPresenter;
 import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
 import com.tencent.qcloud.presentation.presenter.GroupInfoPresenter;
@@ -81,6 +83,8 @@ public class ConversationFragment extends Fragment implements ConversationView, 
     private String faceUrl;
     private SharedUtils sharedUtils;
     private List<TIMGroupDetailInfo> groupInfoList = new ArrayList<>();
+    private List<String> idList = new ArrayList<>();
+    private List<TIMUserProfile> timList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,7 +100,7 @@ public class ConversationFragment extends Fragment implements ConversationView, 
             iv_lianxiren.setOnClickListener(this);
             showDialog2 = showDialog2();
             sharedUtils = new SharedUtils();
-            adapter = new ConversationAdapter(getActivity(), conversationList, groupInfoList);
+            adapter = new ConversationAdapter(getActivity(), conversationList, groupInfoList, timList);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -146,6 +150,12 @@ public class ConversationFragment extends Fragment implements ConversationView, 
         for (TIMConversation item : conversationList) {
             switch (item.getType()) {
                 case C2C:
+                    String peer = item.getPeer();
+                    String s = peer.substring(peer.length() - 1, peer.length());
+                    if (s.equals("a")) {
+                        idList.add(peer);
+                        Log.e(TAG, "initView: " + peer);
+                    }
                 case Group:
                     this.conversationList.add(new NomalConversation(item));
                     groupList.add(item.getPeer());
@@ -238,6 +248,7 @@ public class ConversationFragment extends Fragment implements ConversationView, 
     public void refresh() {
         Collections.sort(conversationList);
         adapter.notifyDataSetChanged();
+        getFriendMsg();
     }
 
 
@@ -407,7 +418,26 @@ public class ConversationFragment extends Fragment implements ConversationView, 
     @Override
     public void showGroupInfo(List<TIMGroupDetailInfo> groupInfos) {
         groupInfoList = groupInfos;
-        adapter = new ConversationAdapter(getActivity(), conversationList, groupInfoList);
-        listView.setAdapter(adapter);
+        getFriendMsg();
+    }
+
+    /**
+     * 获取好友信息
+     */
+    private void getFriendMsg() {
+        TIMFriendshipManagerExt.getInstance().getFriendsProfile(idList, new TIMValueCallBack<List<TIMUserProfile>>() {
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                timList = timUserProfiles;
+                adapter = new ConversationAdapter(getActivity(), conversationList, groupInfoList, timList);
+                listView.setAdapter(adapter);
+            }
+        });
     }
 }
