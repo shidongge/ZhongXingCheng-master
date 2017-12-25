@@ -77,7 +77,9 @@
         <activity android:name=".activity.JBXX" />
         <activity android:name=".liaotian.FriendsActivity" />
         <activity android:name=".liaotian.AddFriendActivity" />
-        <activity android:name=".liaotian.ChatActivity" />
+        <activity android:name=".liaotian.ChatActivity"
+            android:launchMode="singleTask"
+            />
         <activity android:name=".liaotian.EditActivity" />
         <activity android:name=".liaotian.TCVideoPreviewActivity" />
         <activity android:name=".liaotian.TCVideoRecordActivity" />
@@ -131,6 +133,10 @@
         <activity android:name=".activity.JYTK"/>
         <activity android:name=".activity.RHFK"/>
         <activity android:name=".activity.ZFSB"/>
+        <activity android:name=".activity.SPZX"/>
+        <activity android:name=".activity.WDHB"/>
+        <activity android:name=".activity.WDJX"/>
+        <activity android:name=".activity.WDYJ"/>
         <!-- 消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"
