@@ -6,7 +6,7 @@ package us.mifeng.zhongxingcheng.utils;
 
 public class WangZhi {
     public static final String WAIWANG = "http://www.taogt.cn/";//外网地址
-
+    public static final String LeLe = "http://192.168.1.123:1002/";//乐乐主机
     public static final String ZHUJI = "http://192.168.1.111:8083/";//内册主机地址 小东网址
     public static final String CHENGGE = "http://192.168.1.130:8081/";//陈哥地址
     public static final String DENGLU = ZHUJI + "app/check_login";//登录地址
@@ -30,7 +30,7 @@ public class WangZhi {
     public static final String SHOUYESIGE = WAIWANG+"app/index_shops";//首页四个店铺网址
     public static final String SHOUYEJIUGE = WAIWANG+"app/index_goods";//首页九个商品网址
     public static final String GRXX = WAIWANG+"app/user_info";//个人信息网址
-    public static final String GXJRXX = WAIWANG+"app/update_user_info";//更新个人信息
+    public static final String GXJRXX = LeLe+"app/update_user_info";//更新个人信息
     public static final String TUPIAN = WAIWANG+"uploads/";
     public static final String XINWEN = WAIWANG+"app/news";//新闻中心
 
@@ -54,4 +54,8 @@ public class WangZhi {
     public static final String SPFL = ZHUJI+"Api_Shop/getGoodsClass/";//中星商场分类
     //一个收获地址
     public static final String YGTJSHDZ = ZHUJI+"Api_My/addOneReceiptAddress";//添加收货地址
+
+    public static final String ZXSC_SY = "http://192.168.1.123:1002/Api_Index/getIndexShopFloor";//中星商城首页地址
+
+    public static final String ZXSC_DP = "http://192.168.1.123:1002/Shop/appShopIndex";//中星商城店铺
 }

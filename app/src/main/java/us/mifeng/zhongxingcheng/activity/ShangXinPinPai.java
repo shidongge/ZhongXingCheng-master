@@ -165,7 +165,7 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
                             list.add(dataBean);
                         }
                         if (sxppAdapter==null){
-                            sxppAdapter = new SXPPAdapter(shopslist,list,ShangXinPinPai.this);
+                            sxppAdapter = new SXPPAdapter(list,ShangXinPinPai.this);
                             mLv.setAdapter(sxppAdapter);
                         }else {
                             sxppAdapter.notifyDataSetChanged();

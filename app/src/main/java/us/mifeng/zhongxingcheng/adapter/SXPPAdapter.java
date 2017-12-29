@@ -26,13 +26,13 @@ import us.mifeng.zhongxingcheng.utils.WangZhi;
  */
 public class SXPPAdapter extends BaseAdapter {
     private List<SXPPBean.DataBean> list;
-    private List<SXPPBean.DataBean.GoodsInfoBean> goodsInfoList;
+
     private Context context;
     private static final String TAG = "SXPPAdapter";
 
-    public SXPPAdapter(List<SXPPBean.DataBean.GoodsInfoBean> goodsInfoList, List<SXPPBean.DataBean> list, Context context) {
+    public SXPPAdapter( List<SXPPBean.DataBean> list, Context context) {
         this.list = list;
-        this.goodsInfoList = goodsInfoList;
+
         this.context = context;
     }
 

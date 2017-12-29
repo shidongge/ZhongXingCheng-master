@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
+import us.mifeng.zhongxingcheng.bean.ZXSC_DianPuBean;
 
 /**
  * Created by shido on 2017/11/29.
@@ -16,9 +17,9 @@ import us.mifeng.zhongxingcheng.R;
 
 public class DianPuAdapter extends RecyclerView.Adapter<DianPuAdapter.MyViewHorder> implements View.OnClickListener {
     private Context context;
-    private List<String> list;
+    private List<ZXSC_DianPuBean.GoodsInfoBean> list;
 
-    public DianPuAdapter(Context context, List<String> list) {
+    public DianPuAdapter(Context context, List<ZXSC_DianPuBean.GoodsInfoBean> list) {
         this.list = list;
         this.context = context;
     }
@@ -52,7 +53,7 @@ public class DianPuAdapter extends RecyclerView.Adapter<DianPuAdapter.MyViewHord
 
     @Override
     public void onBindViewHolder(MyViewHorder holder, int position) {
-        holder.tv.setText(list.get(position));
+        holder.tv.setText(list.get(position).getGoodsName());
         //判断是否设置了监听器
         holder.itemView.setTag(position);
 

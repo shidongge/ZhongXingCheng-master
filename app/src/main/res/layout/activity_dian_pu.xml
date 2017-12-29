@@ -15,9 +15,10 @@
         <include layout="@layout/title" />
 
         <ImageView
+            android:id="@+id/dianpu_banner"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@mipmap/ic_launcher_round" />
+        />
 
         <LinearLayout
             android:id="@+id/wuping_dpmz"
@@ -27,10 +28,11 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/dianpu_logo"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:padding="5dp"
-                android:src="@mipmap/ic_launcher_round" />
+                 />
 
             <LinearLayout
                 android:layout_width="150dp"
@@ -38,10 +40,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/dianpu_dianming"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical"
-                    android:text="法国梧桐堡红酒" />
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,9 +73,10 @@
                         />
 
                     <TextView
+                        android:id="@+id/shangpu_quanbuxiao"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="10"
+
                         android:textSize="10sp" />
 
                     <TextView
@@ -83,7 +87,8 @@
                 </LinearLayout>
 
             </LinearLayout>
-
+            <View
+                style="@style/xiantiao_zhongjian"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -117,10 +122,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/dianpu_quanbu"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="10" />
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -142,10 +148,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/dianpu_shangxin"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="10" />
+                    />
 
                 <TextView
                     android:layout_width="match_parent"

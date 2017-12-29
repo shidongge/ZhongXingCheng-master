@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -80,6 +79,9 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
     private List<ADBean.DataBean> data;
     private int position;
     private Intent intent;
+    private List<Home_ShangPinBean.GoodsBean> goodsBeanList ;
+    private ZXSC_ShouYeAdapter zxsc_shouYeAdapter;
+
 
     @Nullable
     @Override
@@ -88,6 +90,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
         listView = (MyListView) inflate.findViewById(R.id.zxsc_home_list);
         paomadeng = (VerticalTextview) inflate.findViewById(R.id.zxsc_home_paomadeng);
         initView();
+        list = new ArrayList<>();
         initAD();
         initPaoMaDeng();
         initLianWang();
@@ -101,7 +104,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
         OkUtils.UploadSJ(WangZhi.SYDB, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+
             }
 
             @Override
@@ -209,7 +212,8 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
 
     private void initLianWang() {
         HashMap<String, String> map = new HashMap<>();
-        OkUtils.UploadSJ(WangZhi.HOME_DIANPU, map, new Callback() {
+        map.put("","");
+        OkUtils.UploadSJ(WangZhi.ZXSC_SY, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
@@ -246,23 +250,40 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
             if (msg.what == 200) {
                 String str = (String) msg.obj;
                 try {
-                    JSONObject jsonObject = new JSONObject(str);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    JSONArray msg1 = data.getJSONArray("msg");
-                    list = new ArrayList<>();
-                    for (int i = 0; i < msg1.length(); i++) {
-                        JSONObject jsonObject1 = msg1.getJSONObject(i);
-                        String desc = jsonObject1.getString("shopName");
-                        String imgTop = jsonObject1.getString("imgTop");
-                        String imgIcon = jsonObject1.getString("imgIcon");
-                        Home_ShangPinBean home_shangPinBean = new Home_ShangPinBean();
-//                        home_shangPinBean.setImgTop(imgTop);
-//                        home_shangPinBean.setShopName(desc);
-//                        home_shangPinBean.setImgIcon(imgIcon);
-                        list.add(home_shangPinBean);
+                    JSONArray jsonArray = new JSONArray(str);
+
+                    for (int z = 0 ;z<jsonArray.length();z++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(z);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        String picture = jsonObject.getString("picture");
+                        Home_ShangPinBean shangPinBean = new Home_ShangPinBean();
+                        shangPinBean.setId(id);
+                        shangPinBean.setName(name);
+                        shangPinBean.setPicture(picture);
+                        JSONArray goods = jsonObject.getJSONArray("goods");
+                        goodsBeanList = new ArrayList<>();
+                        for (int j = 0;j<goods.length();j++){
+                            Home_ShangPinBean.GoodsBean goodsBean = new Home_ShangPinBean.GoodsBean();
+                            JSONObject jsonObject1 = goods.getJSONObject(j);
+                            String goodsId = jsonObject1.getString("goodsId");
+                            String goodsName = jsonObject1.getString("goodsName");
+                            String imgCart = jsonObject1.getString("imgCart");
+                            goodsBean.setGoodsId(goodsId);
+                            goodsBean.setGoodsName(goodsName);
+                            goodsBean.setImgCart(imgCart);
+                            goodsBeanList.add(goodsBean);
+                            shangPinBean.setGoods(goodsBeanList);
+                        }
+                        list.add(shangPinBean);
                     }
-                    ZXSC_ShouYeAdapter home_dianPuAdapter = new ZXSC_ShouYeAdapter(list, getActivity());
-                    listView.setAdapter(home_dianPuAdapter);
+                    if (zxsc_shouYeAdapter==null){
+                        zxsc_shouYeAdapter = new ZXSC_ShouYeAdapter(list, getActivity());
+                        listView.setAdapter(zxsc_shouYeAdapter);
+                    }
+                    else {
+                        zxsc_shouYeAdapter.notifyDataSetChanged();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -279,12 +300,12 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
         sxpp.setOnClickListener(this);
         fxlq.setOnClickListener(this);
         rxph.setOnClickListener(this);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
         back.setOnClickListener(this);
     }
 
