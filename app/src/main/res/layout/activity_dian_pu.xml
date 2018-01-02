@@ -50,40 +50,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:orientation="horizontal">
-
                     <TextView
+                        android:id="@+id/dianpu_xiaoliang"
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:text="销售 "
+                        android:layout_height="match_parent"
                         android:textSize="10sp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="1"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
-                        android:text="共"
-                        android:textSize="10sp"
-
-                        />
-
-                    <TextView
                         android:id="@+id/shangpu_quanbuxiao"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:textSize="10sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="件宝贝"
-                        android:textSize="10sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -180,11 +160,17 @@
                     android:gravity="center">
 
                     <TextView
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/zxsc_dianpu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="企业" />
 
                     <TextView
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/zxsc_dianpu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -194,8 +180,12 @@
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/zxsc_dianpu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="诚信商家" />
             </LinearLayout>
@@ -217,6 +207,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:textColor="#f00"
             android:id="@+id/dp_yihao"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -226,6 +217,7 @@
             android:textSize="16sp" />
 
         <TextView
+
             android:id="@+id/dp_erhao"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -1,7 +1,6 @@
 package us.mifeng.zhongxingcheng.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,6 +14,7 @@ import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.bean.Home_ShangPinBean;
+import us.mifeng.zhongxingcheng.utils.ToSi;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
 
 
@@ -37,7 +37,6 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
     @Override
     public int getCount() {
         if (list.size() !=0){
-            Log.e(TAG, "getCount: "+list.size() );
             return list.size();
         }
         return 0;
@@ -76,7 +75,6 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
         }
 
         Glide.with(context).load(WangZhi.DIANPU+list.get(position).getPicture()).into(vh.img);
-        Log.e(TAG, "getView: "+list.get(position).getPicture() );
         List<Home_ShangPinBean.GoodsBean> goods = list.get(position).getGoods();
        if (goods!=null){
            for (int i = 0 ;i<goods.size();i++){
@@ -84,48 +82,46 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
                if (i==0){
                    Glide.with(context).load(WangZhi.DIANPU+goodsBean.getImgCart()).into(vh.oneimg);
                    vh.onetext.setText(goodsBean.getGoodsName());
+                   vh.one.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+
+                           ToSi.show(context,"点击是一号");
+                       }
+                   });
                }
                if (i==1){
                    Glide.with(context).load(WangZhi.DIANPU+goodsBean.getImgCart()).into(vh.twoimg);
                    vh.twotext.setText(goodsBean.getGoodsName());
+                   vh.two.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+//                context.startActivity(new Intent(context, WPXQ_CeSi.class));
+                           ToSi.show(context,"点击是二号");
+                       }
+                   });
                }
                if (i==2){
                    Glide.with(context).load(WangZhi.DIANPU+goodsBean.getImgCart()).into(vh.threeimg);
                    vh.threetext.setText(goodsBean.getGoodsName());
+                   vh.three.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+//                context.startActivity(new Intent(context, MainActivity.class));
+                           ToSi.show(context,"点击是三号");
+                       }
+                   });
                }
            }
        }
-
-
-//        vh.one.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                ToSi.show(context,"点击是一号");
-//            }
-//        });
-//        vh.two.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.startActivity(new Intent(context, WPXQ_CeSi.class));
-//                ToSi.show(context,"点击是二号");
-//            }
-//        });
-//        vh.three.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                context.startActivity(new Intent(context, MainActivity.class));
-//                ToSi.show(context,"点击是三号");
-//            }
-//        });
-//        vh.img.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        vh.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                context.startActivity(new Intent(context, DianPuActivity.class));
-////                context.startActivity(new Intent(context, MainActivity.class));
-//                ToSi.show(context,"点击是大的");
-//            }
-//        });
+//                context.startActivity(new Intent(context, MainActivity.class));
+                ToSi.show(context,"点击是大的");
+            }
+        });
         return convertView;
     }
 

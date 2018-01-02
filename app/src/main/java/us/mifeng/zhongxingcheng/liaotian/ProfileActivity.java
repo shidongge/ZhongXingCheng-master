@@ -119,7 +119,7 @@ public class ProfileActivity extends FragmentActivity implements FriendshipManag
 
             }
         });
-        LineControllerView category = (LineControllerView) findViewById(R.id.group);
+//        LineControllerView category = (LineControllerView) findViewById(R.id.group);
         //一个用户可以在多个分组内，客户端逻辑保证一个人只存在于一个分组
         //category.setContent(categoryStr = profile.getGroupName());
         LineControllerView black = (LineControllerView) findViewById(R.id.blackList);

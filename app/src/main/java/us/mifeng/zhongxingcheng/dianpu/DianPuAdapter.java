@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -53,6 +56,7 @@ public class DianPuAdapter extends RecyclerView.Adapter<DianPuAdapter.MyViewHord
 
     @Override
     public void onBindViewHolder(MyViewHorder holder, int position) {
+        Glide.with(context).load(list.get(position).getImgCart()).into(holder.img);
         holder.tv.setText(list.get(position).getGoodsName());
         //判断是否设置了监听器
         holder.itemView.setTag(position);
@@ -66,9 +70,11 @@ public class DianPuAdapter extends RecyclerView.Adapter<DianPuAdapter.MyViewHord
 
     class MyViewHorder extends RecyclerView.ViewHolder {
         TextView tv;
+        ImageView img;
         public MyViewHorder(View itemView) {
             super(itemView);
             tv = (TextView) itemView.findViewById(R.id.id_info);
+            img = (ImageView) itemView.findViewById(R.id.id_img);
         }
     }
 }

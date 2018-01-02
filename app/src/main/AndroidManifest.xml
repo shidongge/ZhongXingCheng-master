@@ -133,10 +133,18 @@
         <activity android:name=".activity.JYTK"/>
         <activity android:name=".activity.RHFK"/>
         <activity android:name=".activity.ZFSB"/>
-        <activity android:name=".activity.SPZX"/>
+        <activity android:name=".activity.SPZX"
+            android:theme="@style/StyledIndicators"
+            />
         <activity android:name=".activity.WDHB"/>
         <activity android:name=".activity.WDJX"/>
         <activity android:name=".activity.WDYJ"/>
+        <activity android:name=".activity.HuoDong"/>
+        <activity android:name=".activity.XGSHDZ"/>
+        <activity android:name=".activity.TXJL"/>
+        <activity android:name=".activity.SQTX"/>
+        <activity android:name=".activity.SPZX_SHDZGL"/>
+        <activity android:name=".activity.SPZX_XZSHDZ"/>
         <!-- 消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"
