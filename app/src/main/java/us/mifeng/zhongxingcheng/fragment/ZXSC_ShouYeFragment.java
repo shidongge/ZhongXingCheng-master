@@ -42,6 +42,7 @@ import us.mifeng.zhongxingcheng.activity.ShangXinPinPai;
 import us.mifeng.zhongxingcheng.adapter.ZXSC_ShouYeAdapter;
 import us.mifeng.zhongxingcheng.bean.ADBean;
 import us.mifeng.zhongxingcheng.bean.Home_ShangPinBean;
+import us.mifeng.zhongxingcheng.dianpu.DianPuActivity;
 import us.mifeng.zhongxingcheng.utils.OkUtils;
 import us.mifeng.zhongxingcheng.utils.ToSi;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
@@ -58,7 +59,7 @@ import us.mifeng.zhongxingcheng.wxapi.WXEntryActivity;
  * 中星商城首页fragment
  */
 public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
- 
+
     //聊天
     private int mTargetScene0 = SendMessageToWX.Req.WXSceneSession;
     //朋友圈
@@ -69,7 +70,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
     private MyListView listView;
     private View inflate;
     private List<Home_ShangPinBean> list;
-    private LinearLayout sxpp, fxlq,rxph;
+    private LinearLayout sxpp, fxlq, rxph;
     private SliderLayout slider;
     private VerticalTextview paomadeng;
     private ArrayList<String> titleList = new ArrayList<String>();
@@ -77,9 +78,9 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
     private List<ADBean.DataBean> data;
     private int position;
     private Intent intent;
-    private List<Home_ShangPinBean.GoodsBean> goodsBeanList ;
+    private List<Home_ShangPinBean.GoodsBean> goodsBeanList;
     private ZXSC_ShouYeAdapter zxsc_shouYeAdapter;
-
+    private ImageView yihao, erhao, sanhao;
 
     @Nullable
     @Override
@@ -186,12 +187,12 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
                                 String url = slider.getUrl();
                                 if (url.equals(dataBean.getImg())) {
                                     String type = dataBean.getType();
-                                    if ("1".equals(type)){
+                                    if ("1".equals(type)) {
                                         intent = new Intent(getActivity(), HuoDong.class);
-                                        intent.putExtra("wangzhi",dataBean.getUrl());
-                                    }else {
+                                        intent.putExtra("wangzhi", dataBean.getUrl());
+                                    } else {
                                         intent = new Intent(getActivity(), WPXQ_CeSi.class);
-                                        intent.putExtra("spid",dataBean.getUrl());
+                                        intent.putExtra("spid", dataBean.getUrl());
                                     }
                                 }
                             }
@@ -210,7 +211,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
 
     private void initLianWang() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("","");
+        map.put("", "");
         OkUtils.UploadSJ(WangZhi.ZXSC_SY, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -250,7 +251,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
                 try {
                     JSONArray jsonArray = new JSONArray(str);
 
-                    for (int z = 0 ;z<jsonArray.length();z++){
+                    for (int z = 0; z < jsonArray.length(); z++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(z);
                         String id = jsonObject.getString("id");
                         String name = jsonObject.getString("name");
@@ -261,7 +262,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
                         shangPinBean.setPicture(picture);
                         JSONArray goods = jsonObject.getJSONArray("goods");
                         goodsBeanList = new ArrayList<>();
-                        for (int j = 0;j<goods.length();j++){
+                        for (int j = 0; j < goods.length(); j++) {
                             Home_ShangPinBean.GoodsBean goodsBean = new Home_ShangPinBean.GoodsBean();
                             JSONObject jsonObject1 = goods.getJSONObject(j);
                             String goodsId = jsonObject1.getString("goodsId");
@@ -275,11 +276,10 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
                         }
                         list.add(shangPinBean);
                     }
-                    if (zxsc_shouYeAdapter==null){
+                    if (zxsc_shouYeAdapter == null) {
                         zxsc_shouYeAdapter = new ZXSC_ShouYeAdapter(list, getActivity());
                         listView.setAdapter(zxsc_shouYeAdapter);
-                    }
-                    else {
+                    } else {
                         zxsc_shouYeAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
@@ -294,10 +294,20 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
         sxpp = (LinearLayout) inflate.findViewById(R.id.fragment_zxsc_shouye_sxpp);
         fxlq = (LinearLayout) inflate.findViewById(R.id.fragment_zxsc_shouye_fxlq);
         rxph = (LinearLayout) inflate.findViewById(R.id.fragment_zxsc_shouye_rxph);
+
+        yihao = (ImageView) inflate.findViewById(R.id.zxsc_sy_yihao);
+        erhao = (ImageView) inflate.findViewById(R.id.zxsc_sy_erhao);
+        sanhao = (ImageView) inflate.findViewById(R.id.zxsc_sy_sanhao);
+
+
         slider = (SliderLayout) inflate.findViewById(R.id.slider);
         sxpp.setOnClickListener(this);
         fxlq.setOnClickListener(this);
         rxph.setOnClickListener(this);
+
+        yihao.setOnClickListener(this);
+        erhao.setOnClickListener(this);
+        sanhao.setOnClickListener(this);
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -323,6 +333,21 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
             case R.id.fragment_zxsc_shouye_rxph:
                 startActivity(new Intent(getActivity(), RXPH.class));
                 break;
+            case R.id.zxsc_sy_yihao:
+                Intent intent1 = new Intent(getActivity(), DianPuActivity.class);
+                intent1.putExtra("dianpu","");
+                startActivity(intent1);
+                break;
+            case R.id.zxsc_sy_erhao:
+                Intent intent2 = new Intent(getActivity(), DianPuActivity.class);
+                intent2.putExtra("dianpu","");
+                startActivity(intent2);
+                break;
+            case R.id.zxsc_sy_sanhao:
+                Intent intent3 = new Intent(getActivity(), DianPuActivity.class);
+                intent3.putExtra("dianpu","");
+                startActivity(intent3);
+                break;
             default:
                 break;
         }
@@ -335,7 +360,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onPageSelected(int position) {
-        this.position=position;
+        this.position = position;
 //        Log.e(TAG, "onPageSelected: "+position );
 
     }
@@ -367,11 +392,11 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
     }
 
 
-    public static boolean isInteger(String str){
+    public static boolean isInteger(String str) {
         boolean b = true;
-        try{
+        try {
             Integer.valueOf(str);
-        }catch(Exception e){
+        } catch (Exception e) {
             b = false;
         }
         return b;

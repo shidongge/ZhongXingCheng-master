@@ -155,6 +155,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/zxsc_sy_yihao"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -163,6 +164,7 @@
                     android:src="@mipmap/fxmhy" />
 
                 <ImageView
+                    android:id="@+id/zxsc_sy_erhao"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -171,6 +173,7 @@
                     android:src="@mipmap/sjjlb" />
 
                 <ImageView
+                    android:id="@+id/zxsc_sy_sanhao"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

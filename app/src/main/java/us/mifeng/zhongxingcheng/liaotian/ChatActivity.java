@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,7 +63,7 @@ import us.mifeng.zhongxingcheng.liaotian.utils.RecorderUtil;
 
 
 public class ChatActivity extends FragmentActivity implements ChatView, View.OnTouchListener, AbsListView.OnScrollListener {
-    private static final String TAG = "ChatActivity";
+
     private List<Message> messageList = new ArrayList<>();
     private ChatAdapter adapter;
     private ListView listView;
@@ -270,7 +269,6 @@ public class ChatActivity extends FragmentActivity implements ChatView, View.OnT
                 messageList.add(0, mMessage);
             }
         }
-        Log.e(TAG, "showMessage: " + messageList.size());
         adapter.notifyDataSetChanged();
         getLeftFaceUrl();
         listView.setSelection(newMsgNum);

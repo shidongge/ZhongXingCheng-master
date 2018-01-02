@@ -327,7 +327,7 @@ public class ShouYeFragment extends Fragment implements View.OnClickListener, Ad
         String id1 = bean.getId();
 
         Intent intent = new Intent(getActivity(), WPXQ_CeSi.class);
-        intent.putExtra("id", id1);
+        intent.putExtra("spid", id1);
         startActivity(intent);
 
     }
