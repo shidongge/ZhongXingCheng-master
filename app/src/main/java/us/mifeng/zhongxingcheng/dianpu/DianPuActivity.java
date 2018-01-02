@@ -133,7 +133,7 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                 });
                 break;
 
-            case R.id.dp_erhao://设置点击事件请求不同的接口
+            case R.id.dp_erhao://设置点击事件请求不同的接口,先把上一个list的数据清空，然后在加载这次的数据
                 erhao.setTextColor(Color.parseColor("#ff0000"));
                 mDatas.clear();
 //                for (int i =0;i<10;i++){
@@ -192,14 +192,13 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                     String imgTop = info.getString("imgTop");
                     String sellCount = info.getString("sellCount");
                     String goodsCount = info.getString("goodsCount");
-                    String shopType = info.getString("shopType");
                     dianming.setText(shopName);
                     Glide.with(DianPuActivity.this).load(WangZhi.DIANPU + imgIcon).into(logo);
                     Glide.with(DianPuActivity.this).load(WangZhi.DIANPU + imgTop).into(banner);
                     quanbu.setText(goodsCount);
-                    shangxin.setText(sellCount);
+                    shangxin.setText(goodsCount);
                     quanbuxiao.setText("共"+goodsCount+"件宝贝");
-                    xiaoliang.setText("销量"+shopType);
+                    xiaoliang.setText("销量"+sellCount);
                     JSONArray goodsInfo = jsonObject.getJSONArray("goodsInfo");
                     for (int i = 0; i < goodsInfo.length(); i++) {
                         JSONObject jsonObject1 = goodsInfo.getJSONObject(i);
@@ -240,11 +239,10 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
     };
 
     public void setTextColor() {
-        yihao.setTextColor(Color.parseColor("#000000"));
-        erhao.setTextColor(Color.parseColor("#000000"));
-        sanhao.setTextColor(Color.parseColor("#000000"));
-        sihao.setTextColor(Color.parseColor("#000000"));
-        shaixuan.setTextColor(Color.parseColor("#000000"));
+        yihao.setTextColor(Color.parseColor("#666666"));
+        erhao.setTextColor(Color.parseColor("#666666"));
+        sanhao.setTextColor(Color.parseColor("#666666"));
+        sihao.setTextColor(Color.parseColor("#666666"));
+        shaixuan.setTextColor(Color.parseColor("#666666"));
     }
-
 }

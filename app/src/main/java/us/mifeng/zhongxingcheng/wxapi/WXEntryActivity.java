@@ -22,8 +22,6 @@ import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.utils.Util;
 
 
-
-
 /**
  * Created by shido on 2017/12/11.
  */

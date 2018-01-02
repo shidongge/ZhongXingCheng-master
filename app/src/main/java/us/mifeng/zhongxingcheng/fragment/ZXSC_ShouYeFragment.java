@@ -22,7 +22,6 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
 import com.paradoxie.autoscrolltextview.VerticalTextview;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,8 +58,7 @@ import us.mifeng.zhongxingcheng.wxapi.WXEntryActivity;
  * 中星商城首页fragment
  */
 public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
-    private String appKey = "wx7832196282cda152";
-    private IWXAPI api;
+ 
     //聊天
     private int mTargetScene0 = SendMessageToWX.Req.WXSceneSession;
     //朋友圈
@@ -320,7 +318,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.fragment_zxsc_shouye_fxlq:
                 WXEntryActivity activity = new WXEntryActivity();
-                activity.fenxiang(getActivity(), mTargetScene1);
+                activity.fenxiang(getActivity(), mTargetScene0);
                 break;
             case R.id.fragment_zxsc_shouye_rxph:
                 startActivity(new Intent(getActivity(), RXPH.class));

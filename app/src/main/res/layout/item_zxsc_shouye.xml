@@ -35,14 +35,14 @@
                 <TextView
 
                     android:id="@+id/item_shouye_xia_yi_ll_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
+                    android:layout_gravity="center"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxEms="6"
                     android:singleLine="true"
-                    android:text="hhahahhaahahahah" />
+                   />
             </LinearLayout>
 
             <LinearLayout
@@ -60,13 +60,14 @@
 
                 <TextView
                     android:id="@+id/item_shouye_xia_er_ll_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxEms="6"
                     android:singleLine="true"
-                    android:text="hhahahhaahahahah" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -84,13 +85,14 @@
 
                 <TextView
                     android:id="@+id/item_shouye_xia_san_ll_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxEms="6"
                     android:singleLine="true"
-                    android:text="hhahahhaahahahah" />
+                    android:layout_gravity="center"
+                     />
             </LinearLayout>
 
         </LinearLayout>

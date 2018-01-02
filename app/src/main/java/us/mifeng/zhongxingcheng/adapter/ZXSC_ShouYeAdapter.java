@@ -1,6 +1,7 @@
 package us.mifeng.zhongxingcheng.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.bean.Home_ShangPinBean;
+import us.mifeng.zhongxingcheng.dianpu.DianPuActivity;
 import us.mifeng.zhongxingcheng.utils.ToSi;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
 
@@ -53,7 +55,7 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MyViewHorder vh ;
         if (convertView==null){
             vh = new MyViewHorder();
@@ -117,9 +119,11 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
         vh.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                context.startActivity(new Intent(context, DianPuActivity.class));
-//                context.startActivity(new Intent(context, MainActivity.class));
-                ToSi.show(context,"点击是大的");
+                Intent intent = new Intent(context, DianPuActivity.class);
+                String id = list.get(position).getId();
+                intent.putExtra("dianpu",id);
+                context.startActivity(intent);
+//                ToSi.show(context,"点击是大的");
             }
         });
         return convertView;
