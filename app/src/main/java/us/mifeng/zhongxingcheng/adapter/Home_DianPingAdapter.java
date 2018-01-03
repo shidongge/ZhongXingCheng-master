@@ -1,6 +1,7 @@
 package us.mifeng.zhongxingcheng.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,6 +51,8 @@ public class Home_DianPingAdapter extends BaseAdapter {
             viewHorder.shopname = (TextView) convertView.findViewById(R.id.home_gv_shopname);
             viewHorder.img = (ImageView) convertView.findViewById(R.id.home_gv_img);
             viewHorder.price = (TextView) convertView.findViewById(R.id.home_gv_price);
+            viewHorder.huiyuan = (TextView) convertView.findViewById(R.id.home_gv_huiyuan);
+            viewHorder.huiyuanjia = (TextView) convertView.findViewById(R.id.home_gv_huiyuanjia);
             convertView.setTag(viewHorder);
         }else {
             viewHorder = (MyViewHorder) convertView.getTag();
@@ -62,12 +65,15 @@ public class Home_DianPingAdapter extends BaseAdapter {
 
             Glide.with(context).load(list.get(position).getImgCart()).into(viewHorder.img);
         }
-        viewHorder.price.setText(list.get(position).getGoodsMoney1());
+        viewHorder.price.setText(list.get(position).getGoodsMoney());
         viewHorder.shopname.setText(list.get(position).getShortDesc());
+        viewHorder.huiyuanjia.setText(list.get(position).getGoodsMoney1());
+        viewHorder.huiyuan.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        viewHorder.huiyuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         return convertView;
     }
     class MyViewHorder{
         ImageView img;
-        TextView price,shopname;
+        TextView price,shopname,huiyuan,huiyuanjia;
     }
 }

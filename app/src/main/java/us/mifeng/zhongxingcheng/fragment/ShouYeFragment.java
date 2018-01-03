@@ -309,6 +309,8 @@ public class ShouYeFragment extends Fragment implements View.OnClickListener, Ad
                         home_shangPinBean.setGoodsMoney1(goodsMoney1);
                         home_shangPinBean.setShortDesc(shortDesc);
                         home_shangPinBean.setImgCart(imgTop);
+                        home_shangPinBean.setGoodsMoney(goodsMoney);
+                        home_shangPinBean.setGoodsMoney_old(goodsMoney_old);
                         home_shangPinBean.setId(id);
                         list.add(home_shangPinBean);
                     }

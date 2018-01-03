@@ -17,8 +17,7 @@
         <ImageView
             android:id="@+id/dianpu_banner"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-        />
+            android:layout_height="150dp" />
 
         <LinearLayout
             android:id="@+id/wuping_dpmz"
@@ -31,8 +30,7 @@
                 android:id="@+id/dianpu_logo"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:padding="5dp"
-                 />
+                android:padding="5dp" />
 
             <LinearLayout
                 android:layout_width="150dp"
@@ -43,13 +41,13 @@
                     android:id="@+id/dianpu_dianming"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="center_vertical"
-                    />
+                    android:gravity="center_vertical" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/dianpu_xiaoliang"
                         android:layout_width="wrap_content"
@@ -57,35 +55,37 @@
                         android:textSize="10sp" />
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:id="@+id/shangpu_quanbuxiao"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:textSize="10sp" />
 
 
                 </LinearLayout>
 
             </LinearLayout>
-            <View
-                style="@style/xiantiao_zhongjian"/>
+
+            <View style="@style/xiantiao_zhongjian" />
+
             <LinearLayout
+                android:id="@+id/dianpu_guanzhu"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
 
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_gravity="center"
+                    android:id="@+id/dianpu_gz_img"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:src="@mipmap/weigz" />
+                    android:layout_gravity="center" />
 
                 <TextView
+                    android:id="@+id/dianpu_gz_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="关注" />
+                    android:gravity="center" />
             </LinearLayout>
         </LinearLayout>
 
@@ -106,8 +106,7 @@
                     android:id="@+id/dianpu_quanbu"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="center"
-                    />
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -132,8 +131,7 @@
                     android:id="@+id/dianpu_shangxin"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="center"
-                    />
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -161,20 +159,20 @@
                     android:gravity="center">
 
                     <TextView
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:background="@drawable/zxsc_dianpu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/zxsc_dianpu"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="企业" />
 
                     <TextView
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:background="@drawable/zxsc_dianpu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:background="@drawable/zxsc_dianpu"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="直营" />
 
 
@@ -182,13 +180,13 @@
 
                 <TextView
 
-                    android:layout_gravity="center"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:background="@drawable/zxsc_dianpu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/zxsc_dianpu"
                     android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:text="诚信商家" />
             </LinearLayout>
         </LinearLayout>
@@ -203,8 +201,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000"
-        />
+        android:background="#000" />
 
     <LinearLayout
         android:id="@id/id_stickynavlayout_indicator"
@@ -214,19 +211,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="#f00"
             android:id="@+id/dp_yihao"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="全部"
+            android:textColor="#f00"
             android:textSize="16sp" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="#000" />
+
         <TextView
 
             android:id="@+id/dp_erhao"
@@ -236,24 +235,58 @@
             android:gravity="center"
             android:text="销量"
             android:textSize="16sp" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="#000" />
-        <TextView
-            android:id="@+id/dp_sanhao"
+
+        <LinearLayout
+            android:id="@+id/dp_jiage"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="价格"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dp_sanhao"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="价格"
+                android:textSize="16sp" />
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/jiage_img_shang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/jtsh" />
+
+                <ImageView
+                    android:id="@+id/jiage_img_xia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/jtxh" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
         <View
             android:layout_width="1dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="#000" />
+
         <TextView
             android:id="@+id/dp_sihao"
             android:layout_width="0dp"
@@ -262,25 +295,26 @@
             android:gravity="center"
             android:text="新品"
             android:textSize="16sp" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="#000" />
-        <TextView
-            android:id="@+id/dp_shaixuan"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="筛选"
-            android:textSize="16sp" />
+        <!--<View-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="#000" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/dp_shaixuan"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center"-->
+        <!--android:text="筛选"-->
+        <!--android:textSize="16sp" />-->
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000"
-        />
+        android:background="#000" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@id/id_stickynavlayout_vp"
         android:layout_width="match_parent"

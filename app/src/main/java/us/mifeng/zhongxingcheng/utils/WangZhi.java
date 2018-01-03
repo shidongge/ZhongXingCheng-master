@@ -23,39 +23,38 @@ public class WangZhi {
     public static final String DIANPU = "http://47.94.144.186:8080/uploads/";
 
 
-
-
-
-
-    public static final String SHOUYESIGE = WAIWANG+"app/index_shops";//首页四个店铺网址
-    public static final String SHOUYEJIUGE = WAIWANG+"app/index_goods";//首页九个商品网址
-    public static final String GRXX = WAIWANG+"app/user_info";//个人信息网址
-    public static final String GXJRXX = LeLe+"app/update_user_info";//更新个人信息
-    public static final String TUPIAN = WAIWANG+"uploads/";
-    public static final String XINWEN = WAIWANG+"app/news";//新闻中心
-
+    public static final String SHOUYESIGE = WAIWANG + "app/index_shops";//首页四个店铺网址
+    public static final String SHOUYEJIUGE = WAIWANG + "app/index_goods";//首页九个商品网址
+    public static final String GRXX = WAIWANG + "app/user_info";//个人信息网址
+    public static final String GXJRXX = LeLe + "app/update_user_info";//更新个人信息
+    public static final String TUPIAN = WAIWANG + "uploads/";
+    public static final String XINWEN = WAIWANG + "app/news";//新闻中心
 
 
     //杨雅方地址
     public static final String YYF = "http://192.168.1.120:8082/";
-    public static final String TJSHDZ = ZHUJI+"Api_My/addReceiptAddress";//添加收货地址
-    public static final String SHDZLB = ZHUJI+"Api_My/getReceiptAddressList";//收货地址列表
-    public static final String SCHHDZ = ZHUJI+"Api_My/delReceiptAddress";//删除收货地址
-    public static final String XGSHDZ = ZHUJI+"Api_My/updReceiptAddress";//修改收货地址
-    public static final String SFMR = ZHUJI+"Api_My/setIsDefault";//设置是否为默认收货地址
-    public static final String TJFFTT = ZHUJI+"Api_My/addInvoiceInfo";//申请开发票
-    public static final String FPGLLB = ZHUJI+"Api_My/getInvoiceInfoList";//发票管理列表
-    public static final String SCTTFP = ZHUJI+"Api_My/delInvoiceInfo";//删除发票信息
-    public static final String XGFPTT = ZHUJI+"Api_My/updInvoiceInfo";//修改发票抬头
-    public static final String GWGG = ZHUJI+"Api_Find/getStationMessageList";//官网公告
-    public static final String SYDB = ZHUJI+"Api_Index/getIndexTopBanner";//首页顶部banner图
-    public static final String SXPP = ZHUJI+"Api_Shop/getNewBrand";//上新品牌
-    public static final String RXPH = ZHUJI+"Api_Shop/getTopSelling";//热销排行列表
-    public static final String SPFL = ZHUJI+"Api_Shop/getGoodsClass/";//中星商场分类
+    public static final String TJSHDZ = ZHUJI + "Api_My/addReceiptAddress";//添加收货地址
+    public static final String SHDZLB = ZHUJI + "Api_My/getReceiptAddressList";//收货地址列表
+    public static final String SCHHDZ = ZHUJI + "Api_My/delReceiptAddress";//删除收货地址
+    public static final String XGSHDZ = ZHUJI + "Api_My/updReceiptAddress";//修改收货地址
+    public static final String SFMR = ZHUJI + "Api_My/setIsDefault";//设置是否为默认收货地址
+    public static final String TJFFTT = ZHUJI + "Api_My/addInvoiceInfo";//申请开发票
+    public static final String FPGLLB = ZHUJI + "Api_My/getInvoiceInfoList";//发票管理列表
+    public static final String SCTTFP = ZHUJI + "Api_My/delInvoiceInfo";//删除发票信息
+    public static final String XGFPTT = ZHUJI + "Api_My/updInvoiceInfo";//修改发票抬头
+    public static final String GWGG = ZHUJI + "Api_Find/getStationMessageList";//官网公告
+    public static final String SYDB = ZHUJI + "Api_Index/getIndexTopBanner";//首页顶部banner图
+    public static final String SXPP = ZHUJI + "Api_Shop/getNewBrand";//上新品牌
+    public static final String RXPH = ZHUJI + "Api_Shop/getTopSelling";//热销排行列表
+    public static final String SPFL = ZHUJI + "Api_Shop/getGoodsClass/";//中星商场分类
     //一个收获地址
-    public static final String YGTJSHDZ = ZHUJI+"Api_My/addOneReceiptAddress";//添加收货地址
+    public static final String YGTJSHDZ = ZHUJI + "Api_My/addOneReceiptAddress";//添加收货地址
 
     public static final String ZXSC_SY = "http://192.168.1.123:1002/Api_Index/getIndexShopFloor";//中星商城首页地址
 
     public static final String ZXSC_DP = "http://192.168.1.123:1002/Shop/appShopIndex";//中星商城店铺
+
+    public static final String ZXSC_GZ = "http://192.168.1.123:1002/Api_Shop/appShopFollowChange";//店铺关注
+    public static final String SFGZ = "http://192.168.1.123:1002/Api_Shop/appShopFollowCheck";//判断是否关注商铺
+    public static final String ZXSC_DPLB = "http://192.168.1.123:1002/Shop/appShopIndexFilter";//店铺里面的列表的数据
 }

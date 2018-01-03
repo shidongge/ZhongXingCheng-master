@@ -1,5 +1,6 @@
 package us.mifeng.zhongxingcheng.dianpu;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,15 +31,18 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.bean.ZXSC_DianPuBean;
+import us.mifeng.zhongxingcheng.utils.JiaMi;
 import us.mifeng.zhongxingcheng.utils.OkUtils;
+import us.mifeng.zhongxingcheng.utils.SharedUtils;
+import us.mifeng.zhongxingcheng.utils.ToSi;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
 
 import static us.mifeng.zhongxingcheng.R.id.dp_yihao;
 
 public class DianPuActivity extends FragmentActivity implements View.OnClickListener {
-    private String[] mTitles = new String[]{"全部", "销量", "价格", "新品", "筛选"};
+    private String[] mTitles = new String[]{"全部", "销量", "价格", "新品"};
     private RecyclerView youhuiquan;
-    private LinearLayout mIndicator;
+    private LinearLayout mIndicator, guanzhu,jiage;
     private TabFragment[] mFragments = new TabFragment[mTitles.length];
     private RecyclerView mRecyclerView;
     private List<ZXSC_DianPuBean.GoodsInfoBean> mDatas = new ArrayList<>();
@@ -49,17 +53,65 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
     private static final String TAG = "DianPuActivity";
     private String dianpu;
     private ImageView banner, logo;
-    private TextView dianming, shangxin, quanbu, quanbuxiao,xiaoliang;
+    private TextView dianming, shangxin, quanbu, quanbuxiao, xiaoliang, gz_text;
+    private String token, zxcid, substring;
+    private ImageView img,img_xia,img_shang;
+    private ProgressDialog progressDialog;
+    private boolean isTag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dian_pu);
         dianpu = getIntent().getStringExtra("dianpu");
+        SharedUtils sharedUtils = new SharedUtils();
+        zxcid = sharedUtils.getShared("zxcid", DianPuActivity.this);
+        String id = sharedUtils.getShared("id", DianPuActivity.this);
+        token = sharedUtils.getShared("token", DianPuActivity.this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在加载数据。。。。。。");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        String newid = id;
+        substring = newid.substring(0, 11);
         initView();
         initLianWang();
         //；粘性布局
         initViews();
+        initGuanZhu();
+    }
+
+    private void initGuanZhu() {
+        HashMap<String, String> map1 = new HashMap<>();
+        map1.put("type", "2");
+        map1.put("shopId", dianpu);
+        map1.put("user_id", zxcid);
+        map1.put("user_token", token);
+        map1.put("user_mobile", substring);
+
+        JSONObject jsonObject = new JSONObject(map1);
+        String string1 = jsonObject.toString();
+        final String s = JiaMi.jdkBase64Encoder(string1);
+        HashMap<String, String> map2 = new HashMap<>();
+        map2.put("secret", s);
+
+        OkUtils.UploadSJ(WangZhi.SFGZ, map2, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                Log.e(TAG, "onResponse: "+response.body().string() );
+                String string = response.body().string();
+                Message message = hand.obtainMessage();
+                message.obj = string;
+                message.what = 200;
+                hand.sendMessage(message);
+            }
+        });
     }
 
     private void initView() {
@@ -82,6 +134,7 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+//                Log.e(TAG, "onResponse: "+response.body().string() );
                 String string = response.body().string();
                 Message message = hand.obtainMessage();
                 message.what = 100;
@@ -96,10 +149,18 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
         erhao = (TextView) findViewById(R.id.dp_erhao);
         sanhao = (TextView) findViewById(R.id.dp_sanhao);
         sihao = (TextView) findViewById(R.id.dp_sihao);
-        shaixuan = (TextView) findViewById(R.id.dp_shaixuan);
+//        shaixuan = (TextView) findViewById(R.id.dp_shaixuan);
         back = (ImageView) findViewById(R.id.title_back);
         biaoti = (TextView) findViewById(R.id.title_text);
         xiaoliang = (TextView) findViewById(R.id.dianpu_xiaoliang);
+        guanzhu = (LinearLayout) findViewById(R.id.dianpu_guanzhu);
+        jiage = (LinearLayout) findViewById(R.id.dp_jiage);
+
+        img = (ImageView) findViewById(R.id.dianpu_gz_img);
+        gz_text = (TextView) findViewById(R.id.dianpu_gz_text);
+
+        img_shang = (ImageView) findViewById(R.id.jiage_img_shang);
+        img_xia = (ImageView) findViewById(R.id.jiage_img_xia);
 
         youhuiquan = (RecyclerView) findViewById(R.id.dianpu_youhuiquan);
         mIndicator = (LinearLayout) findViewById(R.id.id_stickynavlayout_indicator);
@@ -108,11 +169,58 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
 
 
         biaoti.setText("商家店铺");
-        back.setOnClickListener(this);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         yihao.setOnClickListener(this);
         erhao.setOnClickListener(this);
-        sanhao.setOnClickListener(this);
+        jiage.setOnClickListener(this);
         sihao.setOnClickListener(this);
+        guanzhu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, String> map1 = new HashMap<>();
+                map1.put("type", "2");
+                map1.put("shopId", dianpu);
+                map1.put("user_id", zxcid);
+                map1.put("user_token", token);
+                map1.put("user_mobile", substring);
+
+                JSONObject jsonObject = new JSONObject(map1);
+                String string1 = jsonObject.toString();
+                final String s = JiaMi.jdkBase64Encoder(string1);
+                HashMap<String, String> map2 = new HashMap<>();
+                map2.put("secret", s);
+
+                if (img.getDrawable().getCurrent().getConstantState() == getResources().getDrawable(R.mipmap.yigz).getConstantState()) {
+                    img.setImageResource(R.mipmap.weigz);
+                    gz_text.setText("未关注");
+                } else {
+                    img.setImageResource(R.mipmap.yigz);
+                    gz_text.setText("已关注");
+                }
+
+                OkUtils.UploadSJ(WangZhi.ZXSC_GZ, map2, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+//                        Log.e(TAG, "onResponse: "+response.body().string());
+                        String string = response.body().string();
+                        Message mess = hand.obtainMessage();
+                        mess.what = 300;
+                        mess.obj = string;
+                        hand.sendMessage(mess);
+                    }
+                });
+            }
+        });
 
     }
 
@@ -121,9 +229,27 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
         setTextColor();
         switch (v.getId()) {
             case dp_yihao:
+                progressDialog.show();
                 yihao.setTextColor(Color.parseColor("#ff0000"));
-                dianPuAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(dianPuAdapter);
+                mDatas.clear();
+                HashMap<String, String> map1 = new HashMap<>();
+                map1.put("shopId", dianpu);
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map1, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+//                        Log.e(TAG, "onResponse: " + response.body().string());
+                        String string = response.body().string();
+                        Message message = hand.obtainMessage();
+                        message.obj = string;
+                        message.what = 400;
+                        hand.sendMessage(message);
+                    }
+                });
 
                 dianPuAdapter.setOnItemClickListener(new DianPuAdapter.OnItemClickListener() {
                     @Override
@@ -136,11 +262,26 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
             case R.id.dp_erhao://设置点击事件请求不同的接口,先把上一个list的数据清空，然后在加载这次的数据
                 erhao.setTextColor(Color.parseColor("#ff0000"));
                 mDatas.clear();
-//                for (int i =0;i<10;i++){
-//                    xiaolianglist.add("woshi "+i);
-//                }
-                dianPuAdapter.notifyDataSetChanged();
-//                mRecyclerView.setAdapter(dianPuAdapter);
+                progressDialog.show();
+                final HashMap<String, String> map = new HashMap<>();
+                map.put("shopId", dianpu);
+                map.put("filter", "ssc");
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+//                        Log.e(TAG, "onResponse: " + response.body().string());
+                        String string = response.body().string();
+                        Message mess = hand.obtainMessage();
+                        mess.obj = string;
+                        mess.what = 500;
+                        hand.sendMessage(mess);
+                    }
+                });
                 dianPuAdapter.setOnItemClickListener(new DianPuAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -148,10 +289,41 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                     }
                 });
                 break;
-            case R.id.dp_sanhao:
+            case R.id.dp_jiage:
                 sanhao.setTextColor(Color.parseColor("#ff0000"));
-                dianPuAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(dianPuAdapter);
+                mDatas.clear();
+                progressDialog.show();
+                HashMap<String, String> map2 = new HashMap<>();
+                map2.put("shopId", dianpu);
+                if (isTag) {
+
+                    img_shang.setImageResource(R.mipmap.jiantou_up);
+                    map2.put("filter", "gsc");
+                    map2.put("weight", "1");
+                    isTag = false;
+                } else {
+
+                    img_xia.setImageResource(R.mipmap.jiantou_down);
+                    map2.put("filter", "gde");
+                    map2.put("weight", "2");
+                    isTag = true;
+                }
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map2, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+//                        Log.e(TAG, "onResponse: "+response.body().string());
+                        String string = response.body().string();
+                        Message message = hand.obtainMessage();
+                        message.obj = string;
+                        message.what = 600;
+                        hand.sendMessage(message);
+                    }
+                });
                 dianPuAdapter.setOnItemClickListener(new DianPuAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -161,8 +333,26 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                 break;
             case R.id.dp_sihao:
                 sihao.setTextColor(Color.parseColor("#ff0000"));
-                dianPuAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(dianPuAdapter);
+                mDatas.clear();
+                progressDialog.show();
+                HashMap<String, String> map4 = new HashMap<>();
+                map4.put("shopId", dianpu);
+                map4.put("filter", "nsc");
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map4, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String string = response.body().string();
+                        Message mess7 = hand.obtainMessage();
+                        mess7.what=700;
+                        mess7.obj=string;
+                        hand.sendMessage(mess7);
+                    }
+                });
                 dianPuAdapter.setOnItemClickListener(new DianPuAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -170,9 +360,8 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                     }
                 });
                 break;
-            case R.id.title_back:
-                finish();
-                break;
+
+
         }
     }
 
@@ -181,6 +370,7 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            //进入app请求网络
             if (msg.what == 100) {
                 String str = (String) msg.obj;
                 try {
@@ -197,9 +387,10 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                     Glide.with(DianPuActivity.this).load(WangZhi.DIANPU + imgTop).into(banner);
                     quanbu.setText(goodsCount);
                     shangxin.setText(goodsCount);
-                    quanbuxiao.setText("共"+goodsCount+"件宝贝");
-                    xiaoliang.setText("销量"+sellCount);
+                    quanbuxiao.setText("共" + goodsCount + "件宝贝");
+                    xiaoliang.setText("销量" + sellCount);
                     JSONArray goodsInfo = jsonObject.getJSONArray("goodsInfo");
+                    progressDialog.dismiss();
                     for (int i = 0; i < goodsInfo.length(); i++) {
                         JSONObject jsonObject1 = goodsInfo.getJSONObject(i);
                         String id1 = jsonObject1.getString("id");
@@ -223,8 +414,11 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                         goodsInfoBean.setGoodsMoneyConsult(goodsMoneyConsult);
                         mDatas.add(goodsInfoBean);
                     }
+
+
                     dianPuAdapter = new DianPuAdapter(DianPuActivity.this, mDatas);
                     mRecyclerView.setAdapter(dianPuAdapter);
+
                     dianPuAdapter.setOnItemClickListener(new DianPuAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
@@ -235,6 +429,193 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                     e.printStackTrace();
                 }
             }
+            //查询是否关注
+            if (msg.what == 200) {
+                String string = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("false")) {
+                        img.setImageResource(R.mipmap.weigz);
+                        gz_text.setText("未关注");
+                    } else {
+                        img.setImageResource(R.mipmap.yigz);
+                        gz_text.setText("已关注");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            //点击关注
+            if (msg.what == 300) {
+                String string = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("true")) {
+
+                        ToSi.show(DianPuActivity.this, "关注成功");
+                    } else {
+                        ToSi.show(DianPuActivity.this, "未关注");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            //点击全部
+            if (msg.what == 400) {
+                String str = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+                    JSONArray goodsInfo = jsonObject.getJSONArray("goodsInfo");
+                    progressDialog.dismiss();
+                    for (int i = 0; i < goodsInfo.length(); i++) {
+                        JSONObject jsonObject1 = goodsInfo.getJSONObject(i);
+                        String id = jsonObject1.getString("id");
+                        String shopId = jsonObject1.getString("shopId");
+                        String goodsName = jsonObject1.getString("goodsName");
+                        String shortDesc = jsonObject1.getString("shortDesc");
+                        String imgCart = jsonObject1.getString("imgCart");
+                        String goodsMoney = jsonObject1.getString("goodsMoney");
+                        String goodsMoney1 = jsonObject1.getString("goodsMoney1");
+                        String goodsMoneyConsult = jsonObject1.getString("goodsMoneyConsult");
+                        String goodsMoney_old = jsonObject1.getString("goodsMoney_old");
+                        ZXSC_DianPuBean.GoodsInfoBean goodsInfoBean = new ZXSC_DianPuBean.GoodsInfoBean();
+                        goodsInfoBean.setGoodsName(goodsName);
+                        goodsInfoBean.setId(id);
+                        goodsInfoBean.setShopId(shopId);
+                        goodsInfoBean.setShortDesc(shortDesc);
+                        goodsInfoBean.setImgCart(imgCart);
+                        goodsInfoBean.setGoodsMoney(goodsMoney);
+                        goodsInfoBean.setGoodsMoney1(goodsMoney1);
+                        goodsInfoBean.setGoodsMoney_old(goodsMoney_old);
+                        goodsInfoBean.setGoodsMoneyConsult(goodsMoneyConsult);
+                        mDatas.add(goodsInfoBean);
+                    }
+                    dianPuAdapter = new DianPuAdapter(DianPuActivity.this, mDatas);
+                    mRecyclerView.setAdapter(dianPuAdapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            //点击销量
+            if (msg.what == 500) {
+                String str = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+                    JSONArray goodsInfo = jsonObject.getJSONArray("goodsInfo");
+                    progressDialog.dismiss();
+                    for (int i = 0; i < goodsInfo.length(); i++) {
+                        JSONObject jsonObject1 = goodsInfo.getJSONObject(i);
+                        String id = jsonObject1.getString("id");
+                        String shopId = jsonObject1.getString("shopId");
+                        String goodsName = jsonObject1.getString("goodsName");
+                        String shortDesc = jsonObject1.getString("shortDesc");
+                        String imgCart = jsonObject1.getString("imgCart");
+                        String goodsMoney = jsonObject1.getString("goodsMoney");
+                        String goodsMoney1 = jsonObject1.getString("goodsMoney1");
+                        String goodsMoneyConsult = jsonObject1.getString("goodsMoneyConsult");
+                        String goodsMoney_old = jsonObject1.getString("goodsMoney_old");
+                        ZXSC_DianPuBean.GoodsInfoBean goodsInfoBean = new ZXSC_DianPuBean.GoodsInfoBean();
+                        goodsInfoBean.setGoodsName(goodsName);
+                        goodsInfoBean.setId(id);
+                        goodsInfoBean.setShopId(shopId);
+                        goodsInfoBean.setShortDesc(shortDesc);
+                        goodsInfoBean.setImgCart(imgCart);
+                        goodsInfoBean.setGoodsMoney(goodsMoney);
+                        goodsInfoBean.setGoodsMoney1(goodsMoney1);
+                        goodsInfoBean.setGoodsMoney_old(goodsMoney_old);
+                        goodsInfoBean.setGoodsMoneyConsult(goodsMoneyConsult);
+                        mDatas.add(goodsInfoBean);
+                    }
+                    dianPuAdapter = new DianPuAdapter(DianPuActivity.this, mDatas);
+                    mRecyclerView.setAdapter(dianPuAdapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            //价格列表
+            if (msg.what == 600) {
+                String str = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+                    JSONArray goodsInfo = jsonObject.getJSONArray("goodsInfo");
+                    String field = jsonObject.getString("field");
+                    progressDialog.dismiss();
+                    for (int i = 0; i < goodsInfo.length(); i++) {
+                        JSONObject jsonObject1 = goodsInfo.getJSONObject(i);
+                        String id = jsonObject1.getString("id");
+                        Log.e(TAG, "handleMessage: " + id);
+                        String shopId = jsonObject1.getString("shopId");
+                        String goodsName = jsonObject1.getString("goodsName");
+                        String shortDesc = jsonObject1.getString("shortDesc");
+                        String imgCart = jsonObject1.getString("imgCart");
+                        String goodsMoney = jsonObject1.getString("goodsMoney");
+                        String goodsMoney1 = jsonObject1.getString("goodsMoney1");
+                        String goodsMoneyConsult = jsonObject1.getString("goodsMoneyConsult");
+                        String goodsMoney_old = jsonObject1.getString("goodsMoney_old");
+                        ZXSC_DianPuBean.GoodsInfoBean goodsInfoBean = new ZXSC_DianPuBean.GoodsInfoBean();
+                        goodsInfoBean.setGoodsName(goodsName);
+                        goodsInfoBean.setId(id);
+                        goodsInfoBean.setShopId(shopId);
+                        goodsInfoBean.setShortDesc(shortDesc);
+                        goodsInfoBean.setImgCart(imgCart);
+                        goodsInfoBean.setGoodsMoney(goodsMoney);
+                        goodsInfoBean.setGoodsMoney1(goodsMoney1);
+                        goodsInfoBean.setGoodsMoney_old(goodsMoney_old);
+                        goodsInfoBean.setGoodsMoneyConsult(goodsMoneyConsult);
+                        mDatas.add(goodsInfoBean);
+                    }
+                    dianPuAdapter = new DianPuAdapter(DianPuActivity.this, mDatas);
+                    mRecyclerView.setAdapter(dianPuAdapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            //价格列表
+            if (msg.what == 700) {
+                String str = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+                    JSONArray goodsInfo = jsonObject.getJSONArray("goodsInfo");
+                    String field = jsonObject.getString("field");
+                    Log.e(TAG, "handleMessage: " + field);
+                    progressDialog.dismiss();
+                    for (int i = 0; i < goodsInfo.length(); i++) {
+                        JSONObject jsonObject1 = goodsInfo.getJSONObject(i);
+                        String id = jsonObject1.getString("id");
+                        Log.e(TAG, "handleMessage: " + id);
+                        String shopId = jsonObject1.getString("shopId");
+                        String goodsName = jsonObject1.getString("goodsName");
+                        String shortDesc = jsonObject1.getString("shortDesc");
+                        String imgCart = jsonObject1.getString("imgCart");
+                        String goodsMoney = jsonObject1.getString("goodsMoney");
+                        String goodsMoney1 = jsonObject1.getString("goodsMoney1");
+                        String goodsMoneyConsult = jsonObject1.getString("goodsMoneyConsult");
+                        String goodsMoney_old = jsonObject1.getString("goodsMoney_old");
+                        ZXSC_DianPuBean.GoodsInfoBean goodsInfoBean = new ZXSC_DianPuBean.GoodsInfoBean();
+                        goodsInfoBean.setGoodsName(goodsName);
+                        goodsInfoBean.setId(id);
+                        goodsInfoBean.setShopId(shopId);
+                        goodsInfoBean.setShortDesc(shortDesc);
+                        goodsInfoBean.setImgCart(imgCart);
+                        goodsInfoBean.setGoodsMoney(goodsMoney);
+                        goodsInfoBean.setGoodsMoney1(goodsMoney1);
+                        goodsInfoBean.setGoodsMoney_old(goodsMoney_old);
+                        goodsInfoBean.setGoodsMoneyConsult(goodsMoneyConsult);
+                        mDatas.add(goodsInfoBean);
+                    }
+                    dianPuAdapter = new DianPuAdapter(DianPuActivity.this, mDatas);
+                    mRecyclerView.setAdapter(dianPuAdapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     };
 
@@ -243,6 +624,8 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
         erhao.setTextColor(Color.parseColor("#666666"));
         sanhao.setTextColor(Color.parseColor("#666666"));
         sihao.setTextColor(Color.parseColor("#666666"));
-        shaixuan.setTextColor(Color.parseColor("#666666"));
+        img_xia.setImageResource(R.mipmap.jtxh);
+        img_shang.setImageResource(R.mipmap.jtsh);
+//        shaixuan.setTextColor(Color.parseColor("#666666"));
     }
 }
