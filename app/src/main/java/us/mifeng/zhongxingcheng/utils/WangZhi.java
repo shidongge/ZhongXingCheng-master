@@ -50,11 +50,11 @@ public class WangZhi {
     //一个收获地址
     public static final String YGTJSHDZ = ZHUJI + "Api_My/addOneReceiptAddress";//添加收货地址
 
-    public static final String ZXSC_SY = "http://192.168.1.123:1002/Api_Index/getIndexShopFloor";//中星商城首页地址
+    public static final String ZXSC_SY = LeLe + "Api_Index/getIndexShopFloor";//中星商城首页地址
 
-    public static final String ZXSC_DP = "http://192.168.1.123:1002/Shop/appShopIndex";//中星商城店铺
+    public static final String ZXSC_DP = LeLe + "Shop/appShopIndex";//中星商城店铺
 
-    public static final String ZXSC_GZ = "http://192.168.1.123:1002/Api_Shop/appShopFollowChange";//店铺关注
-    public static final String SFGZ = "http://192.168.1.123:1002/Api_Shop/appShopFollowCheck";//判断是否关注商铺
-    public static final String ZXSC_DPLB = "http://192.168.1.123:1002/Shop/appShopIndexFilter";//店铺里面的列表的数据
+    public static final String ZXSC_GZ = LeLe + "Api_Shop/appShopFollowChange";//店铺关注
+    public static final String SFGZ = LeLe + "Api_Shop/appShopFollowCheck";//判断是否关注商铺
+    public static final String ZXSC_DPLB = LeLe + "Shop/appShopIndexFilter";//店铺里面的列表的数据
 }

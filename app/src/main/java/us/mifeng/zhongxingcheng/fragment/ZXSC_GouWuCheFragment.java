@@ -1,5 +1,6 @@
 package us.mifeng.zhongxingcheng.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
+import us.mifeng.zhongxingcheng.activity.TJDD;
 import us.mifeng.zhongxingcheng.adapter.ShoppingCartAdapter;
 import us.mifeng.zhongxingcheng.bean.ShoppingCartBean;
 import us.mifeng.zhongxingcheng.utils.ToSi;
@@ -66,7 +68,7 @@ public class ZXSC_GouWuCheFragment extends Fragment implements View.OnClickListe
 //            btnEdit.setVisibility(View.VISIBLE);
 //        }
 
-        btnBack = (Button) inflate.findViewById(R.id.btn_back);
+//        btnBack = (Button) inflate.findViewById(R.id.btn_back);
         ckAll = (CheckBox) inflate.findViewById(R.id.ck_all);
         tvShowPrice = (TextView) inflate.findViewById(R.id.tv_show_price);
         tvSettlement = (TextView) inflate.findViewById(R.id.tv_settlement);
@@ -175,10 +177,12 @@ public class ZXSC_GouWuCheFragment extends Fragment implements View.OnClickListe
                 int id = bean.getId();
             }
         }
-
-        ToSi.show(getActivity(), "总价：" + totalPrice);
-
         //跳转到支付界面
+        if (totalPrice==0.0){
+            ToSi.show(getActivity(),"请选择商品");
+        }else {
+            startActivity(new Intent(getActivity(),TJDD.class));
+        }
     }
 
 

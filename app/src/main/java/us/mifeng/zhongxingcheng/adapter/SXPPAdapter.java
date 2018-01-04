@@ -1,6 +1,7 @@
 package us.mifeng.zhongxingcheng.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.bean.SXPPBean;
+import us.mifeng.zhongxingcheng.dianpu.DianPuActivity;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
 
 /**
@@ -90,6 +92,18 @@ public class SXPPAdapter extends BaseAdapter {
         vh.number.setText(list.get(position).getGoodsCount());
         vh.name.setText(list.get(position).getShopName());
         Glide.with(context).load(WangZhi.DIANPU+list.get(position).getImgIcon()).into(vh.logo);
+
+        vh.jindian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = list.get(position).getId();
+                Intent intent = new Intent(context, DianPuActivity.class);
+                intent.putExtra("dianpu",id);
+                context.startActivity(intent);
+            }
+        });
+
+
         final List<SXPPBean.DataBean.GoodsInfoBean> goodsInfo = list.get(position).getGoodsInfo();
         if (goodsInfo != null) {
             for (int i = 0; i < goodsInfo.size(); i++) {
@@ -134,13 +148,7 @@ public class SXPPAdapter extends BaseAdapter {
         }else {
             Log.e(TAG, "getView: "+goodsInfo );
         }
-        vh.jindian.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = list.get(position).getId();
-                Log.e(TAG, "onClick: " + id);
-            }
-        });
+
 
 
 

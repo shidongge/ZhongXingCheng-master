@@ -51,6 +51,7 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
     private int lastVisIdnex;
     private int page;
     private int page_count;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
         String string = jsonObject.toString();
         String s = JiaMi.jdkBase64Encoder(string);
         HashMap<String, String> map1 = new HashMap<>();
-        map1.put("secret",s);
+        map1.put("secret", s);
 
         OkUtils.UploadSJ(WangZhi.SXPP, map1, new Callback() {
             @Override
@@ -117,15 +118,15 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
                 try {
                     JSONObject jsonObject = new JSONObject(str);
                     page = jsonObject.getInt("page");
-                    Log.e(TAG, "handleMessage: page"+page );
+                    Log.e(TAG, "handleMessage: page" + page);
                     page_count = jsonObject.getInt("page_count");
-                    Log.e(TAG, "handleMessage: page_count"+page_count );
-                    if (page_count==page){
+                    Log.e(TAG, "handleMessage: page_count" + page_count);
+                    if (page_count == page) {
                         mBar.setVisibility(View.GONE);
-                        ToSi.show(ShangXinPinPai.this,"没有更多数据了");
-                    }else {
+                        ToSi.show(ShangXinPinPai.this, "没有更多数据了");
+                    } else {
                         JSONArray data = jsonObject.getJSONArray("data");
-                        for (int i=0;i<data.length();i++){
+                        for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject1 = data.getJSONObject(i);
                             String shopName = jsonObject1.getString("shopName");
 
@@ -136,6 +137,7 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
                             String sellCount = jsonObject1.getString("sellCount");
 
                             String goodsCount = jsonObject1.getString("goodsCount");
+                            String id1 = jsonObject1.getString("id");
 
                             SXPPBean.DataBean dataBean = new SXPPBean.DataBean();
                             dataBean.setAudeType(audeType);
@@ -143,10 +145,10 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
                             dataBean.setImgIcon(imgIcon);
                             dataBean.setSellCount(sellCount);
                             dataBean.setShopName(shopName);
-
+                            dataBean.setId(id1);
                             JSONArray goodsInfo = jsonObject1.getJSONArray("goodsInfo");
                             shopslist = new ArrayList<>();
-                            for (int j = 0 ;j<goodsInfo.length();j++){
+                            for (int j = 0; j < goodsInfo.length(); j++) {
                                 SXPPBean.DataBean.GoodsInfoBean goodsInfoBean = new SXPPBean.DataBean.GoodsInfoBean();
                                 JSONObject jsonObject2 = goodsInfo.getJSONObject(j);
                                 String id = jsonObject2.getString("id");
@@ -164,10 +166,10 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
                             }
                             list.add(dataBean);
                         }
-                        if (sxppAdapter==null){
-                            sxppAdapter = new SXPPAdapter(list,ShangXinPinPai.this);
+                        if (sxppAdapter == null) {
+                            sxppAdapter = new SXPPAdapter(list, ShangXinPinPai.this);
                             mLv.setAdapter(sxppAdapter);
-                        }else {
+                        } else {
                             sxppAdapter.notifyDataSetChanged();
                         }
                     }
@@ -181,7 +183,7 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if(scrollState==SCROLL_STATE_IDLE&&lastVisIdnex==sxppAdapter.getCount()){
+        if (scrollState == SCROLL_STATE_IDLE && lastVisIdnex == sxppAdapter.getCount()) {
             //确认滑倒底部 加载更多
             mBar.setVisibility(View.VISIBLE);
             initList();
@@ -191,6 +193,6 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        lastVisIdnex=firstVisibleItem+visibleItemCount-1;
+        lastVisIdnex = firstVisibleItem + visibleItemCount - 1;
     }
 }
