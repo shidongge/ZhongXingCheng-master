@@ -335,17 +335,17 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.zxsc_sy_yihao:
                 Intent intent1 = new Intent(getActivity(), DianPuActivity.class);
-                intent1.putExtra("dianpu","");
+                intent1.putExtra("dianpu","9");
                 startActivity(intent1);
                 break;
             case R.id.zxsc_sy_erhao:
                 Intent intent2 = new Intent(getActivity(), DianPuActivity.class);
-                intent2.putExtra("dianpu","");
+                intent2.putExtra("dianpu","5");
                 startActivity(intent2);
                 break;
             case R.id.zxsc_sy_sanhao:
                 Intent intent3 = new Intent(getActivity(), DianPuActivity.class);
-                intent3.putExtra("dianpu","");
+                intent3.putExtra("dianpu","7");
                 startActivity(intent3);
                 break;
             default:
