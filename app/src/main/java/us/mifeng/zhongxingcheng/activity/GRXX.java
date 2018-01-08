@@ -329,7 +329,7 @@ public class GRXX extends Activity implements View.OnClickListener {
                             }
                         });*/
                         final TIMFriendshipManager.ModifyUserProfileParam param = new TIMFriendshipManager.ModifyUserProfileParam();
-                        param.setFaceUrl(item.path);
+                        param.setFaceUrl("https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=134408327,235874462&fm=58&bpow=640&bpoh=480");
                         TIMFriendshipManager.getInstance().modifyProfile(param, new TIMCallBack() {
                             @Override
                             public void onError(int code, String desc) {

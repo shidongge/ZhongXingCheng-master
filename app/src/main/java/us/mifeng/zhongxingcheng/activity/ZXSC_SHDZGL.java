@@ -203,8 +203,7 @@ public class ZXSC_SHDZGL extends Activity implements View.OnClickListener {
     public void MessageEvent(SCSHDZEvent event) {
         list.clear();
         initLianWang();
+//        progressDialog.dismiss();
 
     }
-
-
 }

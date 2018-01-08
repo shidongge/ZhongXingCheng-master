@@ -52,9 +52,9 @@ public class WangZhi {
 
     public static final String ZXSC_SY = LeLe + "Api_Index/getIndexShopFloor";//中星商城首页地址
 
-    public static final String ZXSC_DP = LeLe + "Shop/appShopIndex";//中星商城店铺
-
+    public static final String ZXSC_DP = LeLe + "Api_Shop/appShopIndex";//中星商城店铺
+    public static final String ZXSC_SP_TUWEN = LeLe+"Shop/appShopGoodsInfo?goodsId=";//商品详情图文
     public static final String ZXSC_GZ = LeLe + "Api_Shop/appShopFollowChange";//店铺关注
     public static final String SFGZ = LeLe + "Api_Shop/appShopFollowCheck";//判断是否关注商铺
-    public static final String ZXSC_DPLB = LeLe + "Shop/appShopIndexFilter";//店铺里面的列表的数据
+    public static final String ZXSC_DPLB = LeLe + "Api_Shop/appShopIndexFilter";//店铺里面的列表的数据
 }

@@ -1,6 +1,7 @@
 package us.mifeng.zhongxingcheng.adapter;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,13 +48,14 @@ public class ZXSC_SHDZGLAdapter extends BaseAdapter {
     private String zxcid;
     private String substring;
     private String isDefault;
-
+    private ProgressDialog progressDialog;
     public ZXSC_SHDZGLAdapter(Context context, List<SHDZBean.DataBean> list) {
         this.context = context;
         this.list = list;
         SharedUtils sharedUtils = new SharedUtils();
         String id = sharedUtils.getShared("id", context);
         String newid = id;
+        progressDialog = new ProgressDialog(context);
         substring = newid.substring(0, 11);
         token = sharedUtils.getShared("token", context);
         zxcid = sharedUtils.getShared("zxcid", context);
@@ -186,6 +188,7 @@ public class ZXSC_SHDZGLAdapter extends BaseAdapter {
         vh.moren_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 String id = list.get(position).getId();
                 isDefault = list.get(position).getIsDefault();
                 HashMap<String, String> map = new HashMap<>();

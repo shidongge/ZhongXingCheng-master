@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import us.mifeng.zhongxingcheng.R;
+import us.mifeng.zhongxingcheng.utils.WangZhi;
 
 
 /**
@@ -36,7 +37,7 @@ public class GoodsDetailWebFragment extends Fragment {
     }
 
     public void initWebView(View rootView) {
-        String url = "http://192.168.1.123:1002/shop/appShopGoodsInfo?goodsId="+id;
+        String url = WangZhi.ZXSC_SP_TUWEN+id;
         wv_detail = (WebView) rootView.findViewById(R.id.wv_detail);
         wv_detail.setFocusable(false);
         wv_detail.loadUrl(url);

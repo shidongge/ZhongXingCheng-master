@@ -325,7 +325,7 @@ public class GroupProfileActivity extends FragmentActivity implements GroupInfoV
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 final String path = images.get(0).path;
                 TIMGroupManagerExt.ModifyGroupInfoParam param = new TIMGroupManagerExt.ModifyGroupInfoParam(groupId);
-                param.setFaceUrl(path);
+                param.setFaceUrl("https://publish-pic-cpu.baidu.com/d2f0b30b-7e4b-4629-a2df-79fb09fbbdf3.jpeg@q_90,w_450");
                 TIMGroupManagerExt.getInstance().modifyGroupInfo(param, new TIMCallBack() {
                     @Override
                     public void onError(int code, String desc) {

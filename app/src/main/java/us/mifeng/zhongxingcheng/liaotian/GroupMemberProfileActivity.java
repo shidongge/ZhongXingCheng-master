@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupMemberRoleType;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
@@ -20,6 +20,7 @@ import com.tencent.qcloud.ui.CircleImageView;
 import com.tencent.qcloud.ui.LineControllerView;
 import com.tencent.qcloud.ui.ListPickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ import us.mifeng.zhongxingcheng.liaotian.model.GroupMemberProfile;
 import us.mifeng.zhongxingcheng.liaotian.model.UserInfo;
 
 public class GroupMemberProfileActivity extends FragmentActivity {
-
+    private static final String TAG = "GroupMemberProfileActiv";
     private String userIdentify, groupIdentify, userCard, groupType;
     private TIMGroupMemberRoleType currentUserRole;
     private GroupMemberProfile profile;
@@ -40,6 +41,11 @@ public class GroupMemberProfileActivity extends FragmentActivity {
     private long[] quietTimeOpt = new long[]{600, 3600, 24 * 3600};
     private final int CARD_REQ = 100;
     private String avatarUrl;
+    private TextView tvKick;
+    private TIMGroupMemberInfo timGroupMember;
+    private LineControllerView setQuiet;
+    private TIMGroupMemberRoleType role;
+    private long silenceSeconds = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +54,9 @@ public class GroupMemberProfileActivity extends FragmentActivity {
         profile = (GroupMemberProfile) getIntent().getSerializableExtra("data");
         //userIdentify = profile.getIdentify();
         groupIdentify = getIntent().getStringExtra("groupId");
-        userIdentify= getIntent().getStringExtra("userId");
+        userIdentify = getIntent().getStringExtra("userId");
         groupType = getIntent().getStringExtra("type");
-        avatarUrl=getIntent().getStringExtra("faceUrl");
-        Log.e("000", "onCreate: "+userIdentify);
+        avatarUrl = getIntent().getStringExtra("faceUrl");
         userCard = profile.getNameCard();
         currentUserRole = GroupInfo.getInstance().getRole(groupIdentify);
         quietingOpt = new String[]{getString(R.string.group_member_quiet_cancel)};
@@ -66,8 +71,8 @@ public class GroupMemberProfileActivity extends FragmentActivity {
         if (avatarUrl != null) {
             Glide.with(this).load(avatarUrl).into(img);
         }
-        TextView tvKick = (TextView) findViewById(R.id.kick);
-        tvKick.setVisibility(canManage() && !groupType.equals(GroupInfo.privateGroup) ? View.VISIBLE : View.GONE);
+        tvKick = (TextView) findViewById(R.id.kick);
+        getProfileLevel();
         tvKick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,22 +94,15 @@ public class GroupMemberProfileActivity extends FragmentActivity {
             }
         });
         setManager = (LineControllerView) findViewById(R.id.manager);
-        setManager.setVisibility(currentUserRole == TIMGroupMemberRoleType.Owner && currentUserRole != profile.getRole() && !groupType.equals(GroupInfo.privateGroup) ? View.VISIBLE : View.GONE);
-        setManager.setSwitch(profile.getRole() == TIMGroupMemberRoleType.Admin);
-        setManager.setCheckListener(checkListener);
-        final LineControllerView setQuiet = (LineControllerView) findViewById(R.id.setQuiet);
-        setQuiet.setVisibility(canManage() && !groupType.equals(GroupInfo.privateGroup) ? View.VISIBLE : View.GONE);
+        setQuiet = (LineControllerView) findViewById(R.id.setQuiet);
         if (canManage()) {
-            if (isQuiet()) {
-                setQuiet.setContent(getString(R.string.group_member_quiet_ing));
-            }
             setQuiet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new ListPickerDialog().show(getQuietOption(), getSupportFragmentManager(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, final int which) {
-                            TIMGroupManagerExt.ModifyMemberInfoParam param = new TIMGroupManagerExt.ModifyMemberInfoParam(groupIdentify, GroupMemberProfileActivity.this.userIdentify);
+                            TIMGroupManagerExt.ModifyMemberInfoParam param = new TIMGroupManagerExt.ModifyMemberInfoParam(groupIdentify, userIdentify);
                             if (!isQuiet()) {
                                 param.setSilence(quietTimeOpt[which]);
                             } else {
@@ -161,8 +159,8 @@ public class GroupMemberProfileActivity extends FragmentActivity {
 
 
     private boolean canManage() {
-        if ((currentUserRole == TIMGroupMemberRoleType.Owner && profile.getRole() != TIMGroupMemberRoleType.Owner) ||
-                (currentUserRole == TIMGroupMemberRoleType.Admin && profile.getRole() == TIMGroupMemberRoleType.Normal))
+        if ((currentUserRole == TIMGroupMemberRoleType.Owner && role != TIMGroupMemberRoleType.Owner) ||
+                (currentUserRole == TIMGroupMemberRoleType.Admin && role == TIMGroupMemberRoleType.Normal))
             return true;
         return false;
     }
@@ -214,7 +212,7 @@ public class GroupMemberProfileActivity extends FragmentActivity {
 
                         @Override
                         public void onSuccess() {
-                            Toast.makeText(GroupMemberProfileActivity.this, getString(R.string.group_member_manage_set_succ), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GroupMemberProfileActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
                             profile.setRoleType(isChecked ? TIMGroupMemberRoleType.Admin : TIMGroupMemberRoleType.Normal);
                         }
                     });
@@ -231,12 +229,36 @@ public class GroupMemberProfileActivity extends FragmentActivity {
                 profile.setName(data.getStringExtra(EditActivity.RETURN_EXTRA));
             }
         }
-
     }
-
 
     private boolean isQuiet() {
-        if (profile == null) return false;
-        return profile.getQuietTime() != 0 && profile.getQuietTime() > Calendar.getInstance().getTimeInMillis() / 1000;
+        return silenceSeconds != 0 && silenceSeconds > Calendar.getInstance().getTimeInMillis() / 1000;
     }
+
+    private void getProfileLevel() {
+        List<String> list = new ArrayList<>();
+        list.add(userIdentify);
+        TIMGroupManagerExt.getInstance().getGroupMembersInfo(groupIdentify, list, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+                timGroupMember = timGroupMemberInfos.get(0);
+                role = timGroupMember.getRole();
+                silenceSeconds = timGroupMember.getSilenceSeconds();
+                tvKick.setVisibility(canManage() && !groupType.equals(GroupInfo.privateGroup) ? View.VISIBLE : View.GONE);
+                setQuiet.setVisibility(canManage() && !groupType.equals(GroupInfo.privateGroup) ? View.VISIBLE : View.GONE);
+                setManager.setVisibility(currentUserRole == TIMGroupMemberRoleType.Owner && currentUserRole != role && !groupType.equals(GroupInfo.privateGroup) ? View.VISIBLE : View.GONE);
+                setManager.setSwitch(role == TIMGroupMemberRoleType.Admin);
+                setManager.setCheckListener(checkListener);
+                if (isQuiet()) {
+                    setQuiet.setContent(getString(R.string.group_member_quiet_ing));
+                }
+            }
+        });
+    }
+
 }

@@ -125,8 +125,17 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
 
     private void initLianWang() {
         HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", zxcid);
+        map.put("user_token", token);
+        map.put("user_mobile", substring);
         map.put("shopId", dianpu);
-        OkUtils.UploadSJ(WangZhi.ZXSC_DP, map, new Callback() {
+
+        JSONObject jsonObject = new JSONObject(map);
+        String string1 = jsonObject.toString();
+        final String s = JiaMi.jdkBase64Encoder(string1);
+        HashMap<String, String> map2 = new HashMap<>();
+        map2.put("secret", s);
+        OkUtils.UploadSJ(WangZhi.ZXSC_DP, map2, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
@@ -191,9 +200,9 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
 
                 JSONObject jsonObject = new JSONObject(map1);
                 String string1 = jsonObject.toString();
-                final String s = JiaMi.jdkBase64Encoder(string1);
+                String s1 = JiaMi.jdkBase64Encoder(string1);
                 HashMap<String, String> map2 = new HashMap<>();
-                map2.put("secret", s);
+                map2.put("secret", s1);
 
                 if (img.getDrawable().getCurrent().getConstantState() == getResources().getDrawable(R.mipmap.yigz).getConstantState()) {
                     img.setImageResource(R.mipmap.weigz);
@@ -234,7 +243,15 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                 mDatas.clear();
                 HashMap<String, String> map1 = new HashMap<>();
                 map1.put("shopId", dianpu);
-                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map1, new Callback() {
+                map1.put("user_id", zxcid);
+                map1.put("user_token", token);
+                map1.put("user_mobile", substring);
+                JSONObject jsonObject = new JSONObject(map1);
+                String string1 = jsonObject.toString();
+                String s1 = JiaMi.jdkBase64Encoder(string1);
+                HashMap<String, String> map1_1 = new HashMap<>();
+                map1_1.put("secret", s1);
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map1_1, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
@@ -263,10 +280,18 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                 erhao.setTextColor(Color.parseColor("#ff0000"));
                 mDatas.clear();
                 progressDialog.show();
-                final HashMap<String, String> map = new HashMap<>();
-                map.put("shopId", dianpu);
-                map.put("filter", "ssc");
-                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map, new Callback() {
+                final HashMap<String, String> map2 = new HashMap<>();
+                map2.put("shopId", dianpu);
+                map2.put("filter", "ssc");
+                map2.put("user_id", zxcid);
+                map2.put("user_token", token);
+                map2.put("user_mobile", substring);
+                JSONObject jsonObject1 = new JSONObject(map2);
+                String string2 = jsonObject1.toString();
+                String s2 = JiaMi.jdkBase64Encoder(string2);
+                HashMap<String, String> map2_2 = new HashMap<>();
+                map2_2.put("secret", s2);
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map2_2, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
@@ -293,22 +318,31 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                 sanhao.setTextColor(Color.parseColor("#ff0000"));
                 mDatas.clear();
                 progressDialog.show();
-                HashMap<String, String> map2 = new HashMap<>();
-                map2.put("shopId", dianpu);
+                HashMap<String, String> map3 = new HashMap<>();
+                map3.put("shopId", dianpu);
+
                 if (isTag) {
 
                     img_shang.setImageResource(R.mipmap.jiantou_up);
-                    map2.put("filter", "gsc");
-                    map2.put("weight", "1");
+                    map3.put("filter", "gsc");
+                    map3.put("weight", "1");
                     isTag = false;
                 } else {
 
                     img_xia.setImageResource(R.mipmap.jiantou_down);
-                    map2.put("filter", "gde");
-                    map2.put("weight", "2");
+                    map3.put("filter", "gde");
+                    map3.put("weight", "2");
                     isTag = true;
                 }
-                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map2, new Callback() {
+                map3.put("user_id", zxcid);
+                map3.put("user_token", token);
+                map3.put("user_mobile", substring);
+                JSONObject jsonObject3 = new JSONObject(map3);
+                String string3 = jsonObject3.toString();
+                String s3 = JiaMi.jdkBase64Encoder(string3);
+                HashMap<String, String> map3_3 = new HashMap<>();
+                map3_3.put("secret", s3);
+                OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map3_3, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
@@ -338,6 +372,14 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                 HashMap<String, String> map4 = new HashMap<>();
                 map4.put("shopId", dianpu);
                 map4.put("filter", "nsc");
+                map4.put("user_id", zxcid);
+                map4.put("user_token", token);
+                map4.put("user_mobile", substring);
+                JSONObject jsonObject4 = new JSONObject(map4);
+                String string4 = jsonObject4.toString();
+                String s4 = JiaMi.jdkBase64Encoder(string4);
+                HashMap<String, String> map4_4 = new HashMap<>();
+                map4.put("secret", s4);
                 OkUtils.UploadSJ(WangZhi.ZXSC_DPLB, map4, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {

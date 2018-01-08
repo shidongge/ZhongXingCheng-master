@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -28,6 +27,7 @@ import us.mifeng.zhongxingcheng.adapter.RXPHAdapter;
 import us.mifeng.zhongxingcheng.bean.RXPHBean;
 import us.mifeng.zhongxingcheng.utils.JiaMi;
 import us.mifeng.zhongxingcheng.utils.OkUtils;
+import us.mifeng.zhongxingcheng.utils.ToSi;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
 
 /**
@@ -70,7 +70,8 @@ public class RXPH extends Activity implements AbsListView.OnScrollListener {
         OkUtils.UploadSJ(WangZhi.RXPH, map1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: "+e.getLocalizedMessage());
+                String localizedMessage = e.getLocalizedMessage();
+                ToSi.show(RXPH.this,"连接超时"+localizedMessage);
             }
 
             @Override
