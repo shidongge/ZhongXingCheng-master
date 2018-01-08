@@ -1,6 +1,7 @@
 package us.mifeng.zhongxingcheng.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -53,6 +54,7 @@ public class ZXSC_XZSHDZ extends Activity implements View.OnClickListener {
     private String sheng, shi, qu;
     private boolean isTag = false;
     private String shifoumoren = "0";
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class ZXSC_XZSHDZ extends Activity implements View.OnClickListener {
         substring = newid.substring(0, 11);
         token = sharedUtils.getShared("token", ZXSC_XZSHDZ.this);
         zxcid = sharedUtils.getShared("zxcid", ZXSC_XZSHDZ.this);
+        progressDialog = new ProgressDialog(ZXSC_XZSHDZ.this);
         initView();
     }
 
@@ -129,6 +132,7 @@ public class ZXSC_XZSHDZ extends Activity implements View.OnClickListener {
 
                 break;
             case R.id.xzshdz_bc:
+
                 String trim = name.getText().toString().trim();
                 String trim1 = mobile.getText().toString().trim();
 
@@ -141,6 +145,9 @@ public class ZXSC_XZSHDZ extends Activity implements View.OnClickListener {
                 }  else if (!mobileNO){
                         ToSi.show(ZXSC_XZSHDZ.this,"手机号有误");
                 } else{
+                    progressDialog.show();
+                    progressDialog.setMessage("正在保存。。。。。。");
+                    progressDialog.setCanceledOnTouchOutside(false);
                     HashMap<String, String> map = new HashMap<>();
                     map.put("user_id",zxcid);
                     map.put("user_token",token);
@@ -192,6 +199,7 @@ public class ZXSC_XZSHDZ extends Activity implements View.OnClickListener {
                     JSONObject jsonObject = new JSONObject(str);
                     String info = jsonObject.getString("info");
                     String status = jsonObject.getString("status");
+                    progressDialog.dismiss();
                     //成功返回0
                     if ("0".equals(status)){
                         ToSi.show(ZXSC_XZSHDZ.this,info);

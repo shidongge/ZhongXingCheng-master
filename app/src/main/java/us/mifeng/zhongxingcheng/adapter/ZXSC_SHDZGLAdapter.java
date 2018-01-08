@@ -153,6 +153,7 @@ public class ZXSC_SHDZGLAdapter extends BaseAdapter {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.show();
                                 String id = list.get(position).getId();
                                 final HashMap<String, String> map = new HashMap<>();
                                 map.put("user_id", zxcid);
@@ -250,6 +251,7 @@ public class ZXSC_SHDZGLAdapter extends BaseAdapter {
             if (msg.what == 100) {
                 String str = (String) msg.obj;
                 try {
+                    progressDialog.dismiss();
                     JSONObject jsonObject = new JSONObject(str);
                     String info = jsonObject.getString("info");
                     String status = jsonObject.getString("status");
@@ -266,6 +268,7 @@ public class ZXSC_SHDZGLAdapter extends BaseAdapter {
             }
             if (msg.what == 200) {
                 String str = (String) msg.obj;
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(str);
                     String info = jsonObject.getString("info");
@@ -273,6 +276,7 @@ public class ZXSC_SHDZGLAdapter extends BaseAdapter {
                     if ("0".equals(status)) {
                         ToSi.show(context, info);
                         EventBus.getDefault().post(new SCSHDZEvent("这是要发送的内容"));
+                        notifyDataSetChanged();
                     } else {
                         ToSi.show(context, info);
                     }
