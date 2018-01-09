@@ -1,6 +1,7 @@
 package us.mifeng.zhongxingcheng.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.bean.ShouCangBean;
+import us.mifeng.zhongxingcheng.dianpu.DianPuActivity;
 
 /**
  * Created by shido on 2018/1/9.
@@ -44,7 +46,7 @@ public class SC_DPAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MyViewHorder vh;
         if (convertView==null){
             vh=new MyViewHorder();
@@ -53,6 +55,7 @@ public class SC_DPAdapter extends BaseAdapter{
             vh.name = (TextView) convertView.findViewById(R.id.item_sc_dp_name);
             vh.xl = (TextView) convertView.findViewById(R.id.item_sc_dp_xl);
             vh.zl = (TextView) convertView.findViewById(R.id.item_sc_dp_zl);
+            vh.jindian = (TextView) convertView.findViewById(R.id.item_sc_dp_jinrudianpu);
             convertView.setTag(vh);
         }else {
             vh = (MyViewHorder) convertView.getTag();
@@ -61,10 +64,19 @@ public class SC_DPAdapter extends BaseAdapter{
         vh.zl.setText("总量"+list.get(position).getGoodsCount());
         vh.name.setText(list.get(position).getShopName());
         Glide.with(context).load(list.get(position).getImgIcon()).into(vh.logo);
+        vh.jindian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = list.get(position).getShopId();
+                Intent intent = new Intent(context, DianPuActivity.class);
+                intent.putExtra("dianpu",id);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
     class MyViewHorder{
-        TextView xl,zl,name;
+        TextView xl,zl,name,jindian;
         ImageView logo;
     }
 }

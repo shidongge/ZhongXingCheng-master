@@ -64,6 +64,7 @@
             android:paddingRight="10dp">
 
             <TextView
+                android:id="@+id/item_sc_dp_jinrudianpu"
                 android:padding="10dp"
                 android:background="#f00"
                 android:layout_centerVertical="true"
