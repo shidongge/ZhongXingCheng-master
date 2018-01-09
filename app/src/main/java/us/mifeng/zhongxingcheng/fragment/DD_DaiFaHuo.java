@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
@@ -18,7 +20,7 @@ import us.mifeng.zhongxingcheng.R;
 
 public class DD_DaiFaHuo extends Fragment {
     private ListView lv;
-    private List<String> list;
+    private List<String> list=new ArrayList<>();
     private View inflate;
 
     @Nullable
@@ -32,5 +34,11 @@ public class DD_DaiFaHuo extends Fragment {
 
     private void initView() {
         lv = (ListView) inflate.findViewById(R.id.dd_daifahuo_lv);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 }

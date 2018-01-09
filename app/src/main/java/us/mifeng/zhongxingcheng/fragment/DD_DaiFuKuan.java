@@ -10,6 +10,7 @@ import java.util.List;
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.adapter.DD_DaiFuKuanAdapter;
 import us.mifeng.zhongxingcheng.base.BaseFragment;
+import us.mifeng.zhongxingcheng.utils.ToSi;
 
 /**
  * Created by shido on 2017/11/27.
@@ -29,7 +30,7 @@ public class DD_DaiFuKuan extends BaseFragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                ToSi.show(getActivity(),"点击了item");
             }
         });
         return inflate;

@@ -90,7 +90,7 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
         paomadeng = (VerticalTextview) inflate.findViewById(R.id.zxsc_home_paomadeng);
         initView();
         list = new ArrayList<>();
-        initAD();
+//        initAD();
         initPaoMaDeng();
         initLianWang();
         return inflate;
