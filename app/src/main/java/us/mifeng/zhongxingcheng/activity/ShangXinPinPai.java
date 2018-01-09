@@ -128,38 +128,27 @@ public class ShangXinPinPai extends Activity implements View.OnClickListener, Ab
                         JSONArray data = jsonObject.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject1 = data.getJSONObject(i);
-                            String shopName = jsonObject1.getString("shopName");
-
-                            String audeType = jsonObject1.getString("audeType");
-
-                            String imgIcon = jsonObject1.getString("imgIcon");
-
-                            String sellCount = jsonObject1.getString("sellCount");
-
-                            String goodsCount = jsonObject1.getString("goodsCount");
                             String id1 = jsonObject1.getString("id");
-
                             SXPPBean.DataBean dataBean = new SXPPBean.DataBean();
-                            dataBean.setAudeType(audeType);
-                            dataBean.setGoodsCount(goodsCount);
-                            dataBean.setImgIcon(imgIcon);
-                            dataBean.setSellCount(sellCount);
-                            dataBean.setShopName(shopName);
+                            dataBean.setAudeType(jsonObject1.getString("audeType"));
+                            dataBean.setGoodsCount(jsonObject1.getString("goodsCount"));
+                            dataBean.setImgIcon(jsonObject1.getString("imgIcon"));
+                            dataBean.setSellCount(jsonObject1.getString("sellCount"));
+                            dataBean.setShopName(jsonObject1.getString("shopName"));
                             dataBean.setId(id1);
                             JSONArray goodsInfo = jsonObject1.getJSONArray("goodsInfo");
                             shopslist = new ArrayList<>();
                             for (int j = 0; j < goodsInfo.length(); j++) {
                                 SXPPBean.DataBean.GoodsInfoBean goodsInfoBean = new SXPPBean.DataBean.GoodsInfoBean();
                                 JSONObject jsonObject2 = goodsInfo.getJSONObject(j);
-                                String id = jsonObject2.getString("id");
+
                                 String shopId = jsonObject2.getString("shopId");
-                                String goodsMoney = jsonObject2.getString("goodsMoney");
-                                String imgCart = jsonObject2.getString("imgCart");
+
                                 String goodsMoney_old = jsonObject2.getString("goodsMoney_old");
 
-                                goodsInfoBean.setImgCart(imgCart);
-                                goodsInfoBean.setId(id);
-                                goodsInfoBean.setGoodsMoney(goodsMoney);
+                                goodsInfoBean.setImgCart(jsonObject2.getString("imgCart"));
+                                goodsInfoBean.setId(jsonObject2.getString("id"));
+                                goodsInfoBean.setGoodsMoney(jsonObject2.getString("goodsMoney"));
                                 shopslist.add(goodsInfoBean);
 
                                 dataBean.setGoodsInfo(shopslist);
