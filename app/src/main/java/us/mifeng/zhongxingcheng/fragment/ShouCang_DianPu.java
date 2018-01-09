@@ -100,8 +100,6 @@ public class ShouCang_DianPu extends Fragment {
                     for (int i = 0; i < shopsCollection.length(); i++) {
                         JSONObject jsonObject1 = shopsCollection.getJSONObject(i);
                         shopsCollectionBean = new ShouCangBean.ShopsCollectionBean();
-                        String sellCount = jsonObject1.getString("sellCount");
-                        String goodsCount = jsonObject1.getString("goodsCount");
                         shopsCollectionBean.setId(jsonObject1.getString("id"));
                         shopsCollectionBean.setType(jsonObject1.getString("type"));
                         shopsCollectionBean.setShopId(jsonObject1.getString("shopId"));
@@ -112,8 +110,8 @@ public class ShouCang_DianPu extends Fragment {
                         shopsCollectionBean.setStatus(jsonObject1.getString("status"));
                         shopsCollectionBean.setImgIcon(jsonObject1.getString("imgIcon"));
                         shopsCollectionBean.setShopName(jsonObject1.getString("shopName"));
-                        shopsCollectionBean.setSellCount(sellCount);
-                        shopsCollectionBean.setGoodsCount(goodsCount);
+                        shopsCollectionBean.setSellCount(jsonObject1.getString("sellCount"));
+                        shopsCollectionBean.setGoodsCount(jsonObject1.getString("goodsCount"));
                         shopsCollectionlist.add(shopsCollectionBean);
                     }
                     if (sc_dpAdapter == null) {
