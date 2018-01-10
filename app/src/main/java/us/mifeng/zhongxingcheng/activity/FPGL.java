@@ -136,15 +136,11 @@ public class FPGL extends Activity implements View.OnClickListener {
                         JSONArray data = jsonObject.getJSONArray("data");
                         for (int i = 0; i<data.length();i++){
                             JSONObject jsonObject1 = data.getJSONObject(i);
-                            String id = jsonObject1.getString("id");
-                            String title = jsonObject1.getString("title");
-                            String id_code = jsonObject1.getString("id_code");
-                            String is_default = jsonObject1.getString("is_default");
                             FPGLBean.DataBean dataBean = new FPGLBean.DataBean();
-                            dataBean.setId(id);
-                            dataBean.setId_code(id_code);
-                            dataBean.setTitle(title);
-                            dataBean.setIs_default(is_default);
+                            dataBean.setId(jsonObject1.getString("id"));
+                            dataBean.setId_code(jsonObject1.getString("id_code"));
+                            dataBean.setTitle(jsonObject1.getString("title"));
+                            dataBean.setIs_default(jsonObject1.getString("is_default"));
                             list.add(dataBean);
                         }
                         if (fpglAdapter==null){
