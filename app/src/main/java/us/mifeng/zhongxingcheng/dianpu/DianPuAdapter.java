@@ -58,6 +58,7 @@ public class DianPuAdapter extends RecyclerView.Adapter<DianPuAdapter.MyViewHord
     public void onBindViewHolder(MyViewHorder holder, int position) {
         Glide.with(context).load(list.get(position).getImgCart()).into(holder.img);
         holder.tv.setText(list.get(position).getGoodsName());
+        holder.money.setText("¥"+list.get(position).getGoodsMoney());
         //判断是否设置了监听器
         holder.itemView.setTag(position);
 
@@ -69,12 +70,13 @@ public class DianPuAdapter extends RecyclerView.Adapter<DianPuAdapter.MyViewHord
     }
 
     class MyViewHorder extends RecyclerView.ViewHolder {
-        TextView tv;
+        TextView tv,money;
         ImageView img;
         public MyViewHorder(View itemView) {
             super(itemView);
             tv = (TextView) itemView.findViewById(R.id.id_info);
             img = (ImageView) itemView.findViewById(R.id.id_img);
+            money = (TextView) itemView.findViewById(R.id.id_money);
         }
     }
 }
