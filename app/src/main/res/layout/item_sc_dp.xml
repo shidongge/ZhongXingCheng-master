@@ -30,7 +30,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="龙行农庄旗舰店" />
-
+            <TextView
+              android:layout_marginTop="5dp"
+                android:textSize="10sp"
+                android:paddingLeft="8dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/zxsc_dianpu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="企业直营"
+                />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
