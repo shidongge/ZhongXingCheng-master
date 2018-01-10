@@ -125,21 +125,14 @@ public class XinWenFragment extends Fragment implements AbsListView.OnScrollList
                         Log.e(TAG, "handleMessage: "+info.length() );
                         for (int i = 0;i<info.length();i++){
                             JSONObject jsonObject1 = (JSONObject) info.get(i);
-                            String id = jsonObject1.getString("id");
-                            String title = jsonObject1.getString("title");
-                            String publisher = jsonObject1.getString("publisher");
-                            String read = jsonObject1.getString("read");
-                            String thumnai = jsonObject1.getString("thumbnail");
-                            String content = jsonObject1.getString("content");
-                            String url = jsonObject1.getString("url");
                             GWGGBean.DataBean infoBean = new GWGGBean.DataBean();
-                            infoBean.setContent(content);
-                            infoBean.setTitle(title);
-                            infoBean.setId(id);
-                            infoBean.setPublisher(publisher);
-                            infoBean.setRead(read);
-                            infoBean.setThumbnail(thumnai);
-                            infoBean.setUrl(url);
+                            infoBean.setContent(jsonObject1.getString("content"));
+                            infoBean.setTitle(jsonObject1.getString("title"));
+                            infoBean.setId(jsonObject1.getString("id"));
+                            infoBean.setPublisher(jsonObject1.getString("publisher"));
+                            infoBean.setRead(jsonObject1.getString("read"));
+                            infoBean.setThumbnail(jsonObject1.getString("thumbnail"));
+                            infoBean.setUrl(jsonObject1.getString("url"));
                             list.add(infoBean);
 
                         }

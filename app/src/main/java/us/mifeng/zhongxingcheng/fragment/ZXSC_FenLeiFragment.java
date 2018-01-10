@@ -78,13 +78,10 @@ public class ZXSC_FenLeiFragment extends Fragment implements View.OnClickListene
                     JSONArray child_list = jsonObject.getJSONArray("child_list");
                     for (int i = 0;i<child_list.length();i++){
                         JSONObject jsonObject1 = child_list.getJSONObject(i);
-                        String id1 = jsonObject1.getString("id");
-                        String name = jsonObject1.getString("name");
-                        String level = jsonObject1.getString("level");
                         FenLieBean.DataBean.ChildListBean childListBean = new FenLieBean.DataBean.ChildListBean();
-                        childListBean.setLevel(level);
-                        childListBean.setId(id1);
-                        childListBean.setName(name);
+                        childListBean.setLevel(jsonObject1.getString("level"));
+                        childListBean.setId(jsonObject1.getString("id"));
+                        childListBean.setName(jsonObject1.getString("name"));
                         childListBeanList.add(childListBean);
                     }
                     if (fenLeiRightAdapter==null){
@@ -164,16 +161,10 @@ public class ZXSC_FenLeiFragment extends Fragment implements View.OnClickListene
                         data = jsonObject.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject1 = data.getJSONObject(i);
-                            String id = jsonObject1.getString("id");
-
-                            String level = jsonObject1.getString("level");
-
-                            String name = jsonObject1.getString("name");
-
                             FenLieBean.DataBean dataBean = new FenLieBean.DataBean();
-                            dataBean.setId(id);
-                            dataBean.setLevel(level);
-                            dataBean.setName(name);
+                            dataBean.setId(jsonObject1.getString("id"));
+                            dataBean.setLevel( jsonObject1.getString("level"));
+                            dataBean.setName(jsonObject1.getString("name"));
                             dataBeanList.add(dataBean);
                         }
                         JSONObject jsonObject1 = data.getJSONObject(0);
@@ -181,12 +172,9 @@ public class ZXSC_FenLeiFragment extends Fragment implements View.OnClickListene
                         for (int j = 0;j<child_list.length();j++){
                             FenLieBean.DataBean.ChildListBean childListBean = new FenLieBean.DataBean.ChildListBean();
                             JSONObject jsonObject2 = child_list.getJSONObject(j);
-                            String id = jsonObject2.getString("id");
-                            String level = jsonObject2.getString("level");
-                            String name = jsonObject2.getString("name");
-                            childListBean.setId(id);
-                            childListBean.setLevel(level);
-                            childListBean.setName(name);
+                            childListBean.setId(jsonObject2.getString("id"));
+                            childListBean.setLevel(jsonObject2.getString("level"));
+                            childListBean.setName(jsonObject2.getString("name"));
                             childListBeanList.add(childListBean);
                         }
                         if (fenLeiRightAdapter==null){

@@ -297,21 +297,13 @@ public class ShouYeFragment extends Fragment implements View.OnClickListener, Ad
                     list = new ArrayList<>();
                     for (int i = 0; i < msg1.length(); i++) {
                         JSONObject jsonObject1 = msg1.getJSONObject(i);
-//                        String desc = jsonObject1.getString("shopName");
-                        String id = jsonObject1.getString("id");
-                        String goodsMoney1 = jsonObject1.getString("goodsMoney1");//会员价
-                        String goodsMoney_old = jsonObject1.getString("goodsMoney_old");//原价
-                        String shortDesc = jsonObject1.getString("shortDesc");//商品名称
-
-                        String imgTop = jsonObject1.getString("imgCart");
-                        String goodsMoney = jsonObject1.getString("goodsMoney");
                         Home_ShangPingCGBean.DataBean.GoodsInfoBean home_shangPinBean = new Home_ShangPingCGBean.DataBean.GoodsInfoBean();
-                        home_shangPinBean.setGoodsMoney1(goodsMoney1);
-                        home_shangPinBean.setShortDesc(shortDesc);
-                        home_shangPinBean.setImgCart(imgTop);
-                        home_shangPinBean.setGoodsMoney(goodsMoney);
-                        home_shangPinBean.setGoodsMoney_old(goodsMoney_old);
-                        home_shangPinBean.setId(id);
+                        home_shangPinBean.setGoodsMoney1(jsonObject1.getString("goodsMoney1"));//会员价
+                        home_shangPinBean.setShortDesc(jsonObject1.getString("shortDesc"));//商品名称
+                        home_shangPinBean.setImgCart(jsonObject1.getString("imgCart"));
+                        home_shangPinBean.setGoodsMoney(jsonObject1.getString("goodsMoney"));
+                        home_shangPinBean.setGoodsMoney_old(jsonObject1.getString("goodsMoney_old"));//原价
+                        home_shangPinBean.setId(jsonObject1.getString("id"));
                         list.add(home_shangPinBean);
                     }
                     Home_DianPingAdapter home_dianPingAdapter = new Home_DianPingAdapter(list, getActivity());
