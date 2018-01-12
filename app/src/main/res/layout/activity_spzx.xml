@@ -22,7 +22,7 @@
                     style="@style/home_img"
                     />
                 <TextView
-
+                    android:textColor="#ff9147"
                     android:id="@+id/spzx_shouye_text"
                     style="@style/home_text"
                     android:text="商品中心"
