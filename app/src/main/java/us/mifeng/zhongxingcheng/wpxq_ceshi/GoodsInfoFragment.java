@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,6 @@ import java.util.List;
 
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.dianpu.DianPuActivity;
-
-import static us.mifeng.zhongxingcheng.liaotian.TCVideoPreviewActivity.TAG;
 
 /**
  * item页ViewPager里的商品Fragment
@@ -89,9 +86,9 @@ public class GoodsInfoFragment extends Fragment implements View.OnClickListener,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         View rootView = inflater.inflate(R.layout.fragment_goods_info, null);
-        String id = getActivity().getIntent().getStringExtra("id");
+        String id = getActivity().getIntent().getStringExtra("spid");
 
-        Log.e(TAG, "onCreateView:我是id "+id);
+
         initView(rootView);
         initListener();
         initData();

@@ -28,7 +28,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/id_money"
+
         />
+    <TextView
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:background="@drawable/zxsc_dianpu"
+        android:layout_marginLeft="25dp"
+        android:text="直营"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

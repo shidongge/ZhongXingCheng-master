@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tencent.qcloud.tlslibrary.helper.MResource;
 import com.tencent.qcloud.tlslibrary.service.TLSService;
@@ -26,7 +27,8 @@ public class IndependentRegisterActivity extends Activity {
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "register_psw")),
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "register_psw2")),
                 (Button) findViewById(MResource.getIdByName(getApplication(), "id", "send_code")),
-                (Button) findViewById(MResource.getIdByName(getApplication(), "id", "btn_register"))
+                (Button) findViewById(MResource.getIdByName(getApplication(), "id", "btn_register")),
+                (TextView) findViewById(MResource.getIdByName(getApplication(),"id","register_miao"))
         );
 
         // 设置返回按钮

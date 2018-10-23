@@ -27,7 +27,7 @@ public class GoodsInfoWebFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         View rootView = inflater.inflate(R.layout.fragment_item_info_web, null);
-        id = getActivity().getIntent().getStringExtra("id");
+        id = getActivity().getIntent().getStringExtra("spid");
         initWebView(rootView);
         return rootView;
     }

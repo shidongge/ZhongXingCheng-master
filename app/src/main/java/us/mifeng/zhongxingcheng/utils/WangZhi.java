@@ -57,4 +57,5 @@ public class WangZhi {
     public static final String ZXSC_GZ = LeLe + "Api_Shop/appShopFollowChange";//店铺关注
     public static final String SFGZ = LeLe + "Api_Shop/appShopFollowCheck";//判断是否关注商铺
     public static final String ZXSC_DPLB = LeLe + "Api_Shop/appShopIndexFilter";//店铺里面的列表的数据
+    public static final String ZXSC_SC = LeLe+"Api_My/appShopMyfavorite";//中星商城收藏的列表
 }

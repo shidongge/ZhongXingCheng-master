@@ -298,6 +298,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:background="#ffffff"
                         android:id="@+id/wuping_dpmz"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -374,6 +375,7 @@
                     <View style="@style/xiantiao" />
 
                     <LinearLayout
+                        android:background="#ffffff"
                         android:id="@+id/wuping_baobei"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -468,6 +470,7 @@
                     <View style="@style/xiantiao" />
 
                     <LinearLayout
+                        android:background="#ffffff"
                         android:id="@+id/wuping_shou"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"

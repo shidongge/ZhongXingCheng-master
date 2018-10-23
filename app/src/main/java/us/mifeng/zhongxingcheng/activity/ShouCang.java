@@ -1,5 +1,6 @@
 package us.mifeng.zhongxingcheng.activity;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import us.mifeng.zhongxingcheng.fragment.ShouCang_ShangPin;
 import us.mifeng.zhongxingcheng.utils.JiaMi;
 import us.mifeng.zhongxingcheng.utils.OkUtils;
 import us.mifeng.zhongxingcheng.utils.SharedUtils;
+import us.mifeng.zhongxingcheng.utils.WangZhi;
 
 /**
  * Created by shido on 2017/11/24.
@@ -43,10 +45,14 @@ public class ShouCang extends FragmentActivity implements View.OnClickListener {
     private TextView shangpin_text, shangpin_number, shangpin_kuohao, pinpai_text, pinpai_number, pinpai_kuohao;
     private ImageView back;
     private static final String TAG = "ShouCang";
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zxsc_shoucang);
+        progressDialog = new ProgressDialog(ShouCang.this);
+        progressDialog.show();
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         shouCang_shangPin = new ShouCang_ShangPin();
@@ -75,7 +81,7 @@ public class ShouCang extends FragmentActivity implements View.OnClickListener {
         HashMap<String, String> map2 = new HashMap<>();
         map2.put("secret", s);
 
-        OkUtils.UploadSJ("http://192.168.1.123:1002/Api_My/appShopMyfavorite", map2, new Callback() {
+        OkUtils.UploadSJ(WangZhi.ZXSC_SC, map2, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: "+e.getLocalizedMessage() );
@@ -176,6 +182,7 @@ public class ShouCang extends FragmentActivity implements View.OnClickListener {
             if (msg.what==100){
                 String str= (String) msg.obj;
                 try {
+                    progressDialog.dismiss();
                     JSONObject jsonObject = new JSONObject(str);
                     String shopsCount = jsonObject.getString("shopsCount");
                     String goodsCount = jsonObject.getString("goodsCount");

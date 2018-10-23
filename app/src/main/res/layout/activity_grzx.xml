@@ -37,23 +37,21 @@
     <LinearLayout
         android:id="@+id/grzx_grzy"
         style="@style/linear_tiaomu">
+
         <ImageView
-            android:layout_gravity="center"
-            android:padding="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@mipmap/grzy"
-            />
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:src="@mipmap/grzy" />
+
         <TextView
             style="@style/zhuti_text"
-            android:text="个人主页"
-             />
+            android:text="个人主页" />
 
-        <View
-            style="@style/xiantiao_zhongjian" />
+        <View style="@style/xiantiao_zhongjian" />
 
-        <ImageView
-            style="@style/img_xiao" />
+        <ImageView style="@style/img_xiao" />
     </LinearLayout>
 
     <View

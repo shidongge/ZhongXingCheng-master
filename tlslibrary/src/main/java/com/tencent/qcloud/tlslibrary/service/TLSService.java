@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tencent.qcloud.tlslibrary.helper.Util;
 
@@ -301,10 +302,11 @@ public class TLSService {
                                            EditText mobile,
                                            EditText code,
                                            EditText psw,
-                                           EditText psw2,
+                                           EditText yqm,
                                            Button send_code,
-                                           Button btn_register) {
-        accountRegisterService = new AccountRegisterService(context, mobile, code, psw, psw2, send_code, btn_register);
+                                           Button btn_register,
+                                           TextView miao) {
+        accountRegisterService = new AccountRegisterService(context, mobile, code, psw, yqm, send_code, btn_register,miao);
     }
 
     public int TLSPwdResetAskCode(String countryCode, String phoneNumber, TLSPwdResetListener listener) {

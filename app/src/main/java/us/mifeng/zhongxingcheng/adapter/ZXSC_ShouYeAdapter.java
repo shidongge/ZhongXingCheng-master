@@ -16,8 +16,8 @@ import java.util.List;
 import us.mifeng.zhongxingcheng.R;
 import us.mifeng.zhongxingcheng.bean.Home_ShangPinBean;
 import us.mifeng.zhongxingcheng.dianpu.DianPuActivity;
-import us.mifeng.zhongxingcheng.utils.ToSi;
 import us.mifeng.zhongxingcheng.utils.WangZhi;
+import us.mifeng.zhongxingcheng.wpxq_ceshi.WPXQ_CeSi;
 
 
 /**
@@ -80,15 +80,19 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
         List<Home_ShangPinBean.GoodsBean> goods = list.get(position).getGoods();
        if (goods!=null){
            for (int i = 0 ;i<goods.size();i++){
-               Home_ShangPinBean.GoodsBean goodsBean = goods.get(i);
+               final Home_ShangPinBean.GoodsBean goodsBean = goods.get(i);
+               final String id = list.get(position).getId();
                if (i==0){
                    Glide.with(context).load(WangZhi.DIANPU+goodsBean.getImgCart()).into(vh.oneimg);
                    vh.onetext.setText(goodsBean.getGoodsName());
                    vh.one.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
-
-                           ToSi.show(context,"点击是一号");
+                           String goodsId = goodsBean.getGoodsId();
+                           Intent intent = new Intent(context, WPXQ_CeSi.class);
+                           intent.putExtra("spid",goodsId);
+                           intent.putExtra("dpid",id);
+                           context.startActivity(intent);
                        }
                    });
                }
@@ -98,8 +102,11 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
                    vh.two.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
-//                context.startActivity(new Intent(context, WPXQ_CeSi.class));
-                           ToSi.show(context,"点击是二号");
+                           String goodsId = goodsBean.getGoodsId();
+                           Intent intent = new Intent(context, WPXQ_CeSi.class);
+                           intent.putExtra("spid",goodsId);
+                           intent.putExtra("dpid",id);
+                           context.startActivity(intent);
                        }
                    });
                }
@@ -109,8 +116,11 @@ public class ZXSC_ShouYeAdapter extends BaseAdapter  {
                    vh.three.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
-//                context.startActivity(new Intent(context, MainActivity.class));
-                           ToSi.show(context,"点击是三号");
+                           String goodsId = goodsBean.getGoodsId();
+                           Intent intent = new Intent(context, WPXQ_CeSi.class);
+                           intent.putExtra("spid",goodsId);
+                           intent.putExtra("dpid",id);
+                           context.startActivity(intent);
                        }
                    });
                }

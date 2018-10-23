@@ -70,7 +70,7 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
         token = sharedUtils.getShared("token", DianPuActivity.this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("正在加载数据。。。。。。");
+        progressDialog.setMessage("正在加载数据......");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         String newid = id;
@@ -465,6 +465,8 @@ public class DianPuActivity extends FragmentActivity implements View.OnClickList
                         @Override
                         public void onItemClick(View view, int position) {
                             Log.e(TAG, "onItemClick: 000000" + "点击了哈哈哈");
+                            String id1 = mDatas.get(position).getId();
+
                         }
                     });
                 } catch (JSONException e) {

@@ -179,7 +179,7 @@ public class SplashActivity extends FragmentActivity implements SplashView, TIMC
                 navToLogin();
                 break;
             default:
-                Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                 navToLogin();
                 break;
         }

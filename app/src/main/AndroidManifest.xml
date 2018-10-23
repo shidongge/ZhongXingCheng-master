@@ -68,7 +68,6 @@
         <activity android:name=".activity.QianDao" />
         <activity android:name=".activity.CZZX" />
         <activity android:name=".activity.KTHY" />
-        <activity android:name=".activity.ZXSC" />
         <activity android:name=".activity.XWZX" />
         <activity android:name=".activity.WuPing" />
         <activity android:name=".activity.BZZX" />

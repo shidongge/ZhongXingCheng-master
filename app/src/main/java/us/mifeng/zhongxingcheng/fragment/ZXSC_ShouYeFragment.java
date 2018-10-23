@@ -167,45 +167,44 @@ public class ZXSC_ShouYeFragment extends Fragment implements View.OnClickListene
 
 
     protected void initList(HashMap<String, String> url_maps) {
-        slider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
-        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setCustomAnimation(new DescriptionAnimation());
-        slider.setDuration(4000);
+            slider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+            slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            slider.setCustomAnimation(new DescriptionAnimation());
+            slider.setDuration(4000);
 
-        for (String name : url_maps.keySet()) {
-            TextSliderView textSliderView = new TextSliderView(getActivity());
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-                        @Override
-                        public void onSliderClick(BaseSliderView slider) {
-                            for (int i = 0; i < data.size(); i++) {
-                                ADBean.DataBean dataBean = data.get(i);
-                                String url = slider.getUrl();
-                                if (url.equals(dataBean.getImg())) {
-                                    String type = dataBean.getType();
-                                    if ("1".equals(type)) {
-                                        intent = new Intent(getActivity(), HuoDong.class);
-                                        intent.putExtra("wangzhi", dataBean.getUrl());
-                                    } else {
-                                        intent = new Intent(getActivity(), WPXQ_CeSi.class);
-                                        intent.putExtra("spid", dataBean.getUrl());
+            for (String name : url_maps.keySet()) {
+                TextSliderView textSliderView = new TextSliderView(getActivity());
+                textSliderView
+                        .description(name)
+                        .image(url_maps.get(name))
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                            @Override
+                            public void onSliderClick(BaseSliderView slider) {
+                                for (int i = 0; i < data.size(); i++) {
+                                    ADBean.DataBean dataBean = data.get(i);
+                                    String url = slider.getUrl();
+                                    if (url.equals(dataBean.getImg())) {
+                                        String type = dataBean.getType();
+                                        if ("1".equals(type)) {
+                                            intent = new Intent(getActivity(), HuoDong.class);
+                                            intent.putExtra("wangzhi", dataBean.getUrl());
+                                        } else {
+                                            intent = new Intent(getActivity(), WPXQ_CeSi.class);
+                                            intent.putExtra("spid", dataBean.getUrl());
+                                        }
                                     }
                                 }
+                                startActivity(intent);
                             }
-                            startActivity(intent);
-                        }
-                    });
-            slider.addOnPageChangeListener(this);
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", name);
-            slider.addSlider(textSliderView);
-        }
+                        });
+                slider.addOnPageChangeListener(this);
+                //add your extra information
+                textSliderView.bundle(new Bundle());
+                textSliderView.getBundle()
+                        .putString("extra", name);
+                slider.addSlider(textSliderView);
+            }
     }
 
 
